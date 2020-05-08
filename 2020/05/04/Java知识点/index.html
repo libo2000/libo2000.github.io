@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 
 
@@ -15,7 +15,7 @@
   
   <meta name="theme-color" content="#2f4154">
   <meta name="description" content="">
-  <meta name="author" content="John Doe">
+  <meta name="author" content="libo">
   <meta name="keywords" content="">
   <title>Java知识点 ❤ libo</title>
 
@@ -142,7 +142,7 @@
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
                   <time datetime="2020-05-04 18:05">
-                    May 4, 2020 pm
+                    2020年5月4日 晚上
                   </time>
                 </div>
               
@@ -196,6 +196,12 @@
       <div class="container nopadding-md" id="board-ctn">
         <div class="py-5" id="board">
           <div class="post-content mx-auto" id="post">
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：4 天前
+                
+              </p>
             
             <article class="markdown-body">
               <h1 id="Java基础知识点整理"><a href="#Java基础知识点整理" class="headerlink" title="Java基础知识点整理"></a>Java基础知识点整理</h1><h1 id="基本概念："><a href="#基本概念：" class="headerlink" title="基本概念："></a><u>基本概念：</u></h1><h2 id="1-什么是Java虚拟机？为什么Java被称作是“平台无关的编程语言”？"><a href="#1-什么是Java虚拟机？为什么Java被称作是“平台无关的编程语言”？" class="headerlink" title="1. 什么是Java虚拟机？为什么Java被称作是“平台无关的编程语言”？"></a>1. 什么是Java虚拟机？为什么Java被称作是“平台无关的编程语言”？</h2><p>答： </p>
@@ -413,6 +419,12 @@
 
 <!-- Custom -->
 
+  <div class="col-lg-7 mx-auto nopadding-md">
+    <div class="container custom post-content mx-auto">
+      <img src="https://octodex.github.com/images/jetpacktocat.png" srcset="/img/loading.gif" class="rounded mx-auto d-block mt-5" style="width:150px; height:150px;">
+    </div>
+  </div>
+
 
     
   </main>
@@ -569,6 +581,20 @@
   </script>
 
 
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
 
 
 

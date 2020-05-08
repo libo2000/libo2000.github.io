@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 
 
@@ -15,7 +15,7 @@
   
   <meta name="theme-color" content="#2f4154">
   <meta name="description" content="">
-  <meta name="author" content="John Doe">
+  <meta name="author" content="libo">
   <meta name="keywords" content="">
   <title>在Windows系统下安装本地Maven并配置阿里国内的镜像仓库及修改idea(图文详解) ❤ libo</title>
 
@@ -142,7 +142,7 @@
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
                   <time datetime="2020-05-04 21:35">
-                    May 4, 2020 pm
+                    2020年5月4日 晚上
                   </time>
                 </div>
               
@@ -196,6 +196,12 @@
       <div class="container nopadding-md" id="board-ctn">
         <div class="py-5" id="board">
           <div class="post-content mx-auto" id="post">
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：4 天前
+                
+              </p>
             
             <article class="markdown-body">
               <h1 id="安装本地Maven并配置阿里国内的镜像仓库"><a href="#安装本地Maven并配置阿里国内的镜像仓库" class="headerlink" title="安装本地Maven并配置阿里国内的镜像仓库"></a><em>安装本地Maven并配置阿里国内的镜像仓库</em></h1><h2 id="1-首先去到apache旗下Maven的官网-https-maven-apache-org-下载一个Mavne的解压包"><a href="#1-首先去到apache旗下Maven的官网-https-maven-apache-org-下载一个Mavne的解压包" class="headerlink" title="1. 首先去到apache旗下Maven的官网 (https://maven.apache.org/) 下载一个Mavne的解压包"></a><strong>1. 首先去到apache旗下Maven的官网 (<a href="https://maven.apache.org/" target="_blank" rel="noopener">https://maven.apache.org/</a>) 下载一个Mavne的解压包</strong></h2><p> 如图所示：<br> <img src="https://img-blog.csdnimg.cn/20191122090321520.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
@@ -270,6 +276,12 @@
 </div>
 
 <!-- Custom -->
+
+  <div class="col-lg-7 mx-auto nopadding-md">
+    <div class="container custom post-content mx-auto">
+      <img src="https://octodex.github.com/images/jetpacktocat.png" srcset="/img/loading.gif" class="rounded mx-auto d-block mt-5" style="width:150px; height:150px;">
+    </div>
+  </div>
 
 
     
@@ -427,6 +439,20 @@
   </script>
 
 
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
 
 
 

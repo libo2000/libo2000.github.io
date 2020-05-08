@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 
 
@@ -15,7 +15,7 @@
   
   <meta name="theme-color" content="#2f4154">
   <meta name="description" content="">
-  <meta name="author" content="John Doe">
+  <meta name="author" content="libo">
   <meta name="keywords" content="">
   <title>Ajax的基本使用 ❤ libo</title>
 
@@ -142,7 +142,7 @@
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
                   <time datetime="2020-05-04 21:26">
-                    May 4, 2020 pm
+                    2020年5月4日 晚上
                   </time>
                 </div>
               
@@ -197,14 +197,17 @@
         <div class="py-5" id="board">
           <div class="post-content mx-auto" id="post">
             
+              <p class="note note-info">
+                
+                  本文最后更新于：3 分钟前
+                
+              </p>
+            
             <article class="markdown-body">
               <h1 id="Ajax的基本使用"><a href="#Ajax的基本使用" class="headerlink" title="Ajax的基本使用"></a>Ajax的基本使用</h1><p>Ajax 是一种在无需重新加载整个网页的情况下，能够更新网页部分内容的技术，实现页面和 web 服务器之间数据的异步传输。<br>相当于只刷新页面的一部分而并不刷新整个页面(局部刷新而并非全局刷新)。</p>
-<blockquote>
-<p><font size=3>冷知识：Ajax全称 即“<strong>A</strong>synchronous <strong>J</strong>avascript <strong>A</strong>nd <strong>X</strong>ML”（异步 JavaScript 和 XML）<br><br/>  </p>
+<p><font size=3>冷知识：Ajax全称 即“<strong>A</strong>synchronous <strong>J</strong>avascript <strong>A</strong>nd <strong>X</strong>ML”（异步 JavaScript 和 XML）  </p>
 <p><strong><font size=3>这里将一个简单的Ajax案例：</strong><br><strong><font size=3>获取input输入框中的值并将其以Ajax异步请求的方式请求请求后台，再由后台响应我们所需的数据放到div中(div中无内容)</strong><br><strong><font size=3>从而实现请求与响应，显示数据，并且请求为异步请求(Ajax)不刷新整个页面(局部刷新)</strong><br><strong><font size=3>方式呢就是这么个方式，具体使用根据开发中的应用场景(比如：评论，分页，搜索)</strong> </p>
-</blockquote>
-<p>JS(javascript)方式编写Ajax：</p>
-<pre><code class="hljs java">&lt;%@ page contentType=<span class="hljs-string">"text/html;charset=UTF-8"</span> language=<span class="hljs-string">"java"</span> %&gt;
+<h2 id="JS-javascript-方式编写Ajax："><a href="#JS-javascript-方式编写Ajax：" class="headerlink" title="JS(javascript)方式编写Ajax："></a>JS(javascript)方式编写Ajax：</h2><pre><code class="hljs java">&lt;%@ page contentType=<span class="hljs-string">"text/html;charset=UTF-8"</span> language=<span class="hljs-string">"java"</span> %&gt;
 &lt;html&gt;
 &lt;head&gt;
     &lt;title&gt;Ajax&lt;/title&gt;
@@ -271,10 +274,7 @@
 <span class="hljs-comment">        xmlHttpRequest.status：响应状态(相当于于http响应状态码，太多则不过多说明) 只有200为完全成功*/</span>
 &lt;/script&gt;
 &lt;/html&gt;</code></pre>
-<p>JQ(jquery)方式使用Ajax：</p>
-<blockquote>
-<p><font size=3><strong>看了上面JS的方式编写Ajax，写起来的确是有些繁琐</strong><br><font size=3><strong>接下来使用jquery方式编写4种类似的Ajax，相比JS方式简便很多</strong><br><font size=3><strong>$.ajax()方法中属性详解请参考：</strong> <a href="https://www.cnblogs.com/tylerdonet/p/3520862.html" target="_blank" rel="noopener">https://www.cnblogs.com/tylerdonet/p/3520862.html</a></p>
-</blockquote>
+<h2 id="JQ-jquery-方式使用Ajax："><a href="#JQ-jquery-方式使用Ajax：" class="headerlink" title="JQ(jquery)方式使用Ajax："></a>JQ(jquery)方式使用Ajax：</h2><p><font size=3><strong>看了上面JS的方式编写Ajax，写起来的确是有些繁琐</strong><br><font size=3><strong>接下来使用jquery方式编写4种类似的Ajax，相比JS方式简便很多</strong><br><font size=3><strong>$.ajax()方法中属性详解请参考：</strong> <a href="https://www.cnblogs.com/tylerdonet/p/3520862.html" target="_blank" rel="noopener">https://www.cnblogs.com/tylerdonet/p/3520862.html</a></p>
 <pre><code class="hljs java">&lt;%@ page contentType=<span class="hljs-string">"text/html;charset=UTF-8"</span> language=<span class="hljs-string">"java"</span> %&gt;
 &lt;html&gt;
 &lt;head&gt;
@@ -419,6 +419,12 @@
 </div>
 
 <!-- Custom -->
+
+  <div class="col-lg-7 mx-auto nopadding-md">
+    <div class="container custom post-content mx-auto">
+      <img src="https://octodex.github.com/images/jetpacktocat.png" srcset="/img/loading.gif" class="rounded mx-auto d-block mt-5" style="width:150px; height:150px;">
+    </div>
+  </div>
 
 
     
@@ -576,6 +582,20 @@
   </script>
 
 
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
 
 
 
