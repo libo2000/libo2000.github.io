@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-java.jpg">
-  <link rel="icon" type="image/png" href="/img/java.jpg">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon/apple-java.jpg">
+  <link rel="icon" type="image/png" href="/img/favicon/java.jpg">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -42,7 +42,7 @@
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_2069193_84yku8yueqo.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_2069193_nkgimpb6jwm.css">
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -56,7 +56,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 80vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -162,7 +162,7 @@
 </nav>
 
     <div class="banner intro-2" id="background" parallax=true
-         style="background: url('/img/background2.png') no-repeat center center;
+         style="background: url('/img/background/background5.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -187,7 +187,7 @@
           >
           
             <div class="about-avatar">
-              <img src="/img/liu.jpg" srcset="/img/loading.gif"
+              <img src="/img/about/liu.jpg" srcset="/img/loading.gif"
                    class="img-fluid" alt="avatar">
             </div>
           
@@ -233,7 +233,7 @@
         >
           <i class="iconfont icon-wechat" aria-hidden="true"></i>
           
-            <img class="qr-img" src="/img/WeChat.jpg" srcset="/img/loading.gif" alt="qrcode" />
+            <img class="qr-img" src="/img/about/WeChat.jpg" srcset="/img/loading.gif" alt="qrcode" />
           
         </a>
       
@@ -241,7 +241,7 @@
   </div>
 </div>
 <div class="mt-5 markdown-body">
-  <p>java初学者</p>
+  <p>爱与和平</p>
 
 </div>
 
@@ -301,7 +301,7 @@
       order: 'list',
       theme: '#b7daff',
       preload: 'none',
-      audio: [{"name":"等你下课","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/40079875.mp3","cover":"/img/等你下课.jpg"},{"name":"飞云之下","artist":"林俊杰|韩红","url":"http://mp.111ttt.cn/mp3music/41212233.mp3","cover":"/img/飞云之下.jpg"}]
+      audio: [{"name":"花海","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/440615.mp3","cover":"/img/music_cover/花海.jpg"},{"name":"爱的飞行日记","artist":"周杰伦/杨瑞代","url":"http://mp.111ttt.cn/mp3music/728668.mp3","cover":"/img/music_cover/爱的飞行日记.jpg"},{"name":"等你下课 (with 杨瑞代)","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/40079875.mp3","cover":"/img/music_cover/等你下课.jpg"},{"name":"爱在西元前","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/588552.mp3","cover":"/img/music_cover/爱在西元前.jpg"},{"name":"不能说的秘密","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/392927.mp3","cover":"/img/music_cover/不能说的秘密.jpg"},{"name":"蒲公英的约定","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/324243.mp3","cover":"/img/music_cover/蒲公英的约定.jpg"},{"name":"说好不哭 (with 五月天阿信)","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/76323299.mp3","cover":"/img/music_cover/说好不哭.jpg"},{"name":"半岛铁盒","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/235498.mp3","cover":"/img/music_cover/半岛铁盒.jpg"},{"name":"红尘客栈","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/3195905.mp3","cover":"/img/music_cover/红尘客栈.jpg"}]
     });
   }
 </script>
@@ -473,6 +473,41 @@
 
 
 
+
+
+<center>
+<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("03/30/2020 18:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站安全运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+</center>
 
 
 </body>

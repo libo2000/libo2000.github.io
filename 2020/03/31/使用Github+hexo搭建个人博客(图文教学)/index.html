@@ -1,0 +1,743 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon/apple-java.jpg">
+  <link rel="icon" type="image/png" href="/img/favicon/java.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="libo">
+  <meta name="keywords" content="">
+  <title>Github + hexo搭建个人博客(图文详解) ❤ libo</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_2069193_nkgimpb6jwm.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>libo</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/background/background.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-03-31 23:44" pubdate>
+        2020年3月31日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">Github + hexo搭建个人博客(图文详解)</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="使用Github-hexo搭建个人博客-不会让小伙伴们走弯路"><a href="#使用Github-hexo搭建个人博客-不会让小伙伴们走弯路" class="headerlink" title="使用Github+hexo搭建个人博客(不会让小伙伴们走弯路)"></a><strong>使用Github+hexo搭建个人博客(不会让小伙伴们走弯路)</strong></h1><blockquote>
+<p><strong><font color=black size=3>因为本人(小白)也是第一次使用GIthub+hexo搭建博客，在网上也看了一些的教程，其中也走了一些弯路，第一次搭建可能不太熟悉之前这些工具也没使用过但是搭建完成还是有那么一点成就感的。此篇博客每一步都很详细，我也希望小伙伴们在第一次搭建时少遇到些问题，节约大家去解决问题的时间。想让自己博客变得更好看，更炫酷还可以去网上下载一些好看的主题样式，博客能通过Github仓库域名访问基本就搭建完成啦 ，后面的功能就靠搭建去摸索了(本人(小白)也在继续研究中)</strong></p>
+</blockquote>
+<blockquote>
+<p><strong><font color=black size=3>成功之后的效果：<a href="https://libo2000.github.io/" target="_blank" rel="noopener">https://libo2000.github.io/</a></strong></p>
+</blockquote>
+<h2 id="1-准备工作：安装两个我们本次所需要使用的软件："><a href="#1-准备工作：安装两个我们本次所需要使用的软件：" class="headerlink" title="1. 准备工作：安装两个我们本次所需要使用的软件："></a><strong>1. 准备工作：安装两个我们本次所需要使用的软件：</strong></h2><blockquote>
+<p><font color=black size=3> 1. <strong>node.js下载地址-<a href="http://nodejs.cn" target="_blank" rel="noopener">http://nodejs.cn</a></strong><br><font color=black size=3> 2. <strong><font color=black size=3>Git下载地址-<a href="https://git-scm.com/" target="_blank" rel="noopener">https://git-scm.com/</a>(官网下载非常慢，可百度找资源哈)</strong><br><strong><font color=black size=3>安装过程一直<font color=red>Next</font>就可以了(安装路径可以改)</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331184606971.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200331184621183.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>两者安装完成之后，右击此电脑》属性》高级系统设置》环境变量》系统变量下的Path</strong><br><strong><font color=black size=3>可以看到两者已自动修改了环境变量，这是我们可以通过cmd命令查看两者版本。(确认是否安装成功及可以使用)</strong><br><strong><font color=black size=3>查看Node.js版本命令：<font color=red>node -v</font></strong><br><strong><font color=black size=3>查看Git版本命令：<font color=red>git –version</font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331190852529.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<h2 id="2-注册Github账号以及建立仓库：https-github-com"><a href="#2-注册Github账号以及建立仓库：https-github-com" class="headerlink" title="2. 注册Github账号以及建立仓库：https://github.com/"></a><strong>2. 注册Github账号以及建立仓库：<a href="https://github.com/" target="_blank" rel="noopener">https://github.com/</a></strong></h2><p><img src="https://img-blog.csdnimg.cn/2020033119165076.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200331191856736.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>注册之后邮箱会收到一封Github的邮件，点击Github的链接确认注册</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331210619762.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>之后就是建立Github个人仓库(新用户登陆后会自动跳转到创建页面哈)</strong></font></p>
+<p><strong><font color=black size=3><font color=red>注：如果已有Github账号登陆进去可以在主页点击Create repository</font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/2020033121081435.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>确认注册后会让用户选择公有还是私有仓库(私有的个人仓库好像需要Money好像是每月7美金)</strong><br><strong><font color=black size=3>个人博客的话直接选免费的就行了</strong><br><strong><font color=black size=3><font color=red>注意仓库的取名格式：用户名.github.io</font>(这将是以后的访问域名)</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331211428198.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>到这里代表我们Github账号以及仓库都已经创建完毕</strong><br><strong><font color=black size=3><font color=red>可以把下面这段仓库的地址复制下来留着后面配置时会用到</font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/2020033121154177.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<h2 id="3-接下来进入本地配置安装Hexo"><a href="#3-接下来进入本地配置安装Hexo" class="headerlink" title="3. 接下来进入本地配置安装Hexo"></a><strong>3. 接下来进入本地配置安装Hexo</strong></h2><blockquote>
+<p><strong><font color=black size=3>在磁盘中创建一个用来存放Github本地仓库文件的目录(可自定义目录存放，顾名思义blog==博客)</strong></p>
+</blockquote>
+<p> <img src="https://img-blog.csdnimg.cn/20200401174757575.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>选中创建的目录(文件夹)右键选择使用Gti Bash Here打开Git命令窗口(这就是开始安装的Git工具，现在开始使用)</strong><br><strong><font color=black size=3>也可以使用Windows的cmd命令行(不推荐)</strong><br><strong><font color=black size=3>(因为是从国外服务器下载，受网络的影响比较大，有可能会出现异常，所以我们需要连接国内淘宝官方的服务器来进行)</strong><br><strong><font color=black size=3>输入命令：<font color=red>npm install -g cnpm –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a></font></strong><br><strong><font color=black size=3><font color=red>注：之后再次使用命令则是以cnpm开头~而不是npm</font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331212734452.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>正式开始安装hexo</strong><br><strong><font color=black size=3>输入命令：<font color=red>cnpm install -g hexo-cli</font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/2020040117485118.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>之后就是初始化Hexo</strong><br><strong><font color=black size=3>输入命令：<font color=red>hexo init</font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331213656729.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>这时我们创建的目录(文件夹)下已经多出许多文件(这里不多介绍这些文件及目录)</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331213810427.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>这时启动hexo之后在浏览器输入localhost:4000就可以在本地浏览博客(自带一篇Hello World博客)</strong><br><strong><font color=black size=3><font color=red>输入命令：hexo s</font></strong><br><strong><font color=black size=3>关闭hexo ctrl + c</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331214731382.png" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200331214817321.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<h2 id="4-设置ssh"><a href="#4-设置ssh" class="headerlink" title="4. 设置ssh"></a><strong>4. 设置ssh</strong></h2><blockquote>
+<p><strong><font color=black size=3>生成sshkey</strong><br><strong><font color=black size=3>输入命令：<font color=red>cd ~/.ssh</font>进入.ssh文件</strong><br><strong><font color=black size=3>输入命令：<font color=red>ssh-keygen -t rsa -C ‘注册时的邮箱地址’ </font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331220340712.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>此时我们去查看C盘目录(此文件夹所在C:\用户\用户名目录下)</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331220856851.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>使用记事本打开id_rsa.put文件并复制生成的key</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331220952880.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>在已登陆的Github主页点击右侧头像 》 Settings设置</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/202003312211590.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>**<font color=black size=3>再点击SSH and GPG keys 》 New SSH key</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331221302832.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>将刚刚在.ssh目录下所复制id_rsa.put文件中的信息复制进key(注意空格)，在给它取个名字(随意)</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331221402528.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>这里需要在本地进行验证一次</strong><br><strong><font color=black size=3>输入命令：<font color=red>ssh -T <a href="mailto:git@github.com">git@github.com</a> 并且输入yes之后，行末尾会显示你的用户名</font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331222020342.png" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>绑定成功并且邮箱收到邮件</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331223208806.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>接着在本地绑定与Github的用户名和邮箱</strong><br><strong><font color=black size=3>输入命令：<font color=red>git config –global user.name “注册时用户名”</font></strong><br><strong><font color=black size=3>输入命令：<font color=red>git config –global user.email “注册时邮箱”</font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331222516143.png" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<h2 id="5-上传测试博客"><a href="#5-上传测试博客" class="headerlink" title="5. 上传测试博客"></a><strong>5. 上传测试博客</strong></h2><blockquote>
+<p><strong><font color=black size=3>用记事本打开并修改本地仓库目录下_config.yml文件</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331223717512.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>之前创建仓库生成的Github仓库Http地址，如果没保存的话查看方式在个人仓库 》Clone or download下可查看</strong><br><strong><font color=red>(因为本人已经上传所以仓库中有文件，没上传是没有文件的)</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331224640178.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>在文件的末尾修改(repository属性的地址就是之前创建仓库后所保存的http地址)</strong><br><font color=black size=3>deploy:<br><font color=black size=3>type: git<br><font color=black size=3>repository: <a href="https://github.com/用户名/用户名.github.io.git" target="_blank" rel="noopener">https://github.com/用户名/用户名.github.io.git</a><br><font color=black size=3>branch: master</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331224000346.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>此时需要安装一个上传工具</strong><br><strong><font color=black size=3>输入命令：<font color=red>cnpm install hexo-deployer-git</font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331223459456.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>可以新建一篇测试文章(不新建的话也会有一篇自带的Hello World文章)</strong><br><strong><font color=black size=3>输入命令：<font color=red>hexo new “文章名称”</font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331225029735.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>新建文章之后需要生成一遍文件</strong><br><strong><font color=black size=3>输入命令：<font color=red>hexo g</font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331230712140.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>新建文章后可在本地先预览一遍</strong><br><strong><font color=black size=3>输入命令：<font color=red>hexo s</font>浏览器输入：localhost:4000(ctrl + c 关闭)</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331230142753.png" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>最后直接部署到Github就可以啦</strong><br><strong><font color=black size=3>输入命令：<font color=red>hexo d</font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331230800483.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>第一次上传文件到Github仓库邮箱还会收到一封邮件</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200331230930521.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=black size=3>然后再Github仓库查看就发现多了很多文件</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/2020033123112862.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<p> <strong><font color=black size=5>此时再浏览器输入：用户名.github.io(Github仓库名)就可以访问博客啦</strong><br> <strong><font color=black size=5>例如：<a href="https://libo2000.github.io" target="_blank" rel="noopener">https://libo2000.github.io/</a></strong></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/hexo/">hexo</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/04/03/Mybatis%E6%A1%86%E6%9E%B6%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E7%9A%84%E4%BD%BF%E7%94%A8./">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Mybatis框架逆向工程的使用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/11/22/%E5%9C%A8Windows%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85%E6%9C%AC%E5%9C%B0Maven%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%98%BF%E9%87%8C%E5%9B%BD%E5%86%85%E7%9A%84%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93%E5%8F%8A%E4%BF%AE%E6%94%B9idea(%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3)/">
+                        <span class="hidden-mobile">Maven安装及配置(图文详解)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+    <!-- APlayer 音乐播放器 -->
+    <div id="aplayer"></div>
+    <script defer src="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.js" ></script>
+<link  rel="stylesheet" href="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.css" />
+<script type="text/javascript">
+  var oldLoadAp = window.onload;
+  window.onload = function () {
+    oldLoadAp && oldLoadAp();
+
+    new APlayer({
+      container: document.getElementById('aplayer'),
+      fixed: true,
+      autoplay: 'true' === 'true',
+      loop: 'all',
+      order: 'list',
+      theme: '#b7daff',
+      preload: 'none',
+      audio: [{"name":"花海","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/440615.mp3","cover":"/img/music_cover/花海.jpg"},{"name":"爱的飞行日记","artist":"周杰伦/杨瑞代","url":"http://mp.111ttt.cn/mp3music/728668.mp3","cover":"/img/music_cover/爱的飞行日记.jpg"},{"name":"等你下课 (with 杨瑞代)","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/40079875.mp3","cover":"/img/music_cover/等你下课.jpg"},{"name":"爱在西元前","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/588552.mp3","cover":"/img/music_cover/爱在西元前.jpg"},{"name":"不能说的秘密","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/392927.mp3","cover":"/img/music_cover/不能说的秘密.jpg"},{"name":"蒲公英的约定","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/324243.mp3","cover":"/img/music_cover/蒲公英的约定.jpg"},{"name":"说好不哭 (with 五月天阿信)","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/76323299.mp3","cover":"/img/music_cover/说好不哭.jpg"},{"name":"半岛铁盒","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/235498.mp3","cover":"/img/music_cover/半岛铁盒.jpg"},{"name":"红尘客栈","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/3195905.mp3","cover":"/img/music_cover/红尘客栈.jpg"}]
+    });
+  }
+</script>
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Github + hexo搭建个人博客(图文详解)&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 100,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<center>
+<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("03/30/2020 18:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站安全运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+</center>
+
+
+</body>
+</html>

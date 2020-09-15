@@ -17,10 +17,23 @@
   <meta name="description" content="">
   <meta name="author" content="libo">
   <meta name="keywords" content="">
-  <title>友链 ❤ libo</title>
+  <title>Java基础(面向对象)笔记整理 ❤ libo</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    
+  
+
+  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -43,7 +56,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 100vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -149,7 +162,7 @@
 </nav>
 
     <div class="banner intro-2" id="background" parallax=true
-         style="background: url('/img/background/background6.jpg') no-repeat center center;
+         style="background: url('/img/background/background.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -159,8 +172,49 @@
             </span>
 
             
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-07-13 12:04" pubdate>
+        2019年7月13日 中午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      705 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      7
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
           </div>
 
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
           
         </div>
       </div>
@@ -169,41 +223,119 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">Java基础(面向对象)笔记整理</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="JAVA基础-面向对象-笔记整理："><a href="#JAVA基础-面向对象-笔记整理：" class="headerlink" title="JAVA基础(面向对象)笔记整理："></a><strong>JAVA基础(面向对象)笔记整理：</strong></h1><h2 id="面向对象概述："><a href="#面向对象概述：" class="headerlink" title="面向对象概述："></a><strong>面向对象概述：</strong></h2><pre><code>  1.面向对象的思想来源生活。
+ 2.任何的对象从两个方面描述，静态属性、动态属性。
+  3.创建一个类，其实就创建了一个模板。
+   4.创建了一个类就是创建了一个新的数据类型
+ 5.this代表的是指向当前实例。
+ 6.当自定义了有参数的构造方法后，系统不再自动生成无参构造。
+ 7.this()是调用对应参数的构造方法，必须放在第一行。
+
+Student    s  =   new Student();
+数据类型  变量名   类的构造方法</code></pre><h2 id="继承："><a href="#继承：" class="headerlink" title="继承："></a><strong>继承：</strong></h2><p>1.JAVA中的继承是单继承。<br>2.成员变量只有加上了set和get方法之后才被称作为 “属性”。<br>3.JAVA中子类的实例化会调用所有父类的构造方法。<br>4.子类在重写父类的方法时权限只能放大。<br>5.调用指定的父类方法可以使用super</p>
+<pre><code>注：在方法中调用变量会有就近原则</code></pre><p><img src="https://img-blog.csdnimg.cn/20190713115050330.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<h2 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a><strong>抽象类</strong></h2><p><em>被abstract所修饰</em></p>
+<p>1.专业做父类。<br>2.抽象类是类的模板。<br>3.不可以实例化，但是有构造方法。</p>
+<p> <em>final：</em></p>
+<ul>
+<li><p><em>可以用于修饰类、成员方法和成员变量!</em></p>
+</li>
+<li><p><em>所修饰的类：不能被继承、不能有子类</em></p>
+</li>
+<li><p><em>所修饰的成员方法：不能被子类重写</em></p>
+</li>
+<li><p><em>*所修饰的成员变量：不能被修改(是常量)</em></p>
+</li>
+</ul>
+<h2 id="接口："><a href="#接口：" class="headerlink" title="接口："></a><strong>接口：</strong></h2><p>定义接口使用：interface<br>实现接口使用：implements</p>
+<p>1.接口就是标准。<br>2.JAVA中一个类可以实现多个接口，在实际开发中，如果既可以定义为抽象类又可以定义为接口，那就定义为接口。这样是因为代码的扩展性更好。<br>3.接口中只能有常量(标准的常量命名是全大写)和抽象方法()；</p>
+<h2 id="多态："><a href="#多态：" class="headerlink" title="多态："></a><strong>多态：</strong></h2><p>多态：父类来接收子类<br>子类转化为父类后，只能访问父类和子类共有的方法，子类特有的方法则不能访问。<br>在JAVA中所有的类都是Object的子类。<br>动态绑定：运行期间调用的方法，是根据其具体的类型<img src="https://img-blog.csdnimg.cn/2019071311513547.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<pre><code>   *注：多态的优缺点：
+1. 优点：可以提高可维护性(多态前提所保证的)，提高代码的可扩展性         
+1. 缺点：无法直接访问子类的特有成员*</code></pre><p>多态中的向上转型和向下转型<br>引用类型之间的转换     </p>
+<ul>
+<li>向上转型：<br>由小到大(子类型转换为父类型)            </li>
+<li>向下转型<pre><code>由大到小(父类型转换为子类型)</code></pre></li>
+</ul>
+<h2 id="面向对象和面向过程的区别："><a href="#面向对象和面向过程的区别：" class="headerlink" title="面向对象和面向过程的区别："></a><strong><em>面向对象和面向过程的区别：</em></strong></h2><p>面向对象编程首先考虑让谁去做，然后考虑怎么做。<br>面向过程直接就考虑怎么做。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
                 
-
-<div class="row links">
-  
-    
-    <div class="card col-lg-4 col-md-6 col-sm-12">
-      <a href="http://xianxian86.gitee.io/" class="card-body hover-with-bg" target="_blank" rel="noopener">
-        <div class="card-content">
-          
-            <div class="link-avatar my-auto">
-              <img src="/img/links/微信图片_20200915171459.jpg" srcset="/img/loading.gif" alt="付先生" />
-            </div>
-          
-          <div class="link-text">
-            <div class="link-title">付先生</div>
-            <div class="link-intro">付先生的技术博客</div>
-          </div>
-        </div>
-      </a>
-    </div>
-  
-</div>
-
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
               </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/24/%E5%A6%82%E4%BD%95Eclipse%E4%B8%AD%E9%85%8D%E7%BD%AETomcat./">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Tomcat如何在Eclipse中配置</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
             </div>
-          </div>
+
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
   </main>
 
@@ -308,6 +440,31 @@
 
 
 
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
 
 
   <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
@@ -315,7 +472,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "毁掉我们的不是我们所憎恨的东西，而恰恰是我们所热爱的东西&nbsp;",
+        "Java基础(面向对象)笔记整理&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 100,
@@ -330,6 +487,21 @@
 
 
 
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
 
 
   <script  src="/js/local-search.js" ></script>
@@ -343,6 +515,20 @@
   </script>
 
 
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
 
 
 
