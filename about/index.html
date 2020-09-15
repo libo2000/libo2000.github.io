@@ -1,7 +1,7 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
 
 
@@ -20,21 +20,29 @@
   <title>关于 ❤ libo</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
 
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    
+  
+
+  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
-
-
+<link rel="stylesheet" href="//at.alicdn.com/t/font_2069193_84yku8yueqo.css">
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -42,11 +50,13 @@
 <!-- 自定义样式保持在最底部 -->
 
 
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 60vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -65,61 +75,85 @@
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/">
-              <i class="iconfont icon-home-fill"></i>
-              首页</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/archives/">
-              <i class="iconfont icon-archive-fill"></i>
-              归档</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/categories/">
-              <i class="iconfont icon-category-fill"></i>
-              分类</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/tags/">
-              <i class="iconfont icon-tags-fill"></i>
-              标签</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/about/">
-              <i class="iconfont icon-user-fill"></i>
-              关于</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/links/">
-              <i class="iconfont icon-link-fill"></i>
-              友链</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -127,12 +161,12 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="banner intro-2" id="background" parallax=true
          style="background: url('/img/background2.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
-          <div class="container text-center white-text fadeInUp">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
             <span class="h2" id="subtitle">
               
             </span>
@@ -165,30 +199,39 @@
 <div class="text-center">
   <div class="about-info">
     <div class="about-name">libo</div>
-    <div class="about-intro">自信乐观/ 诚于沟通 / 工作努力</div>
+    <div class="about-intro">自信乐观/ 诚于沟通 / 积极向上</div>
     <div class="about-icons">
       
         
         
         
-        <a href="https://github.com" target="_blank" rel="noopener" class="">
-          <i class="iconfont icon-github-fill" aria-hidden="true"></i>
+        <a href="https://github.com/libo2000/libo2000.github.io" class="
+           hint--bottom hint--rounded"
+           aria-label=GitHub
+        >
+          <i class="iconfont icon-github" aria-hidden="true"></i>
           
         </a>
       
         
         
         
-        <a href="https://github.com" target="_blank" rel="noopener" class="">
-          <i class="iconfont icon-douban-fill" aria-hidden="true"></i>
+        <a href="https://blog.csdn.net/weixin_45377770" class="
+           hint--bottom hint--rounded"
+           aria-label=CSDN
+        >
+          <i class="iconfont icon-csdn" aria-hidden="true"></i>
           
         </a>
       
         
         
         
-        <a href="javascript:;" class="qr-trigger">
-          <i class="iconfont icon-wechat-fill" aria-hidden="true"></i>
+        <a href="javascript:;" class="qr-trigger
+           "
+           
+        >
+          <i class="iconfont icon-wechat" aria-hidden="true"></i>
           
             <img class="qr-img" src="/img/WeChat.jpg" srcset="/img/loading.gif" alt="qrcode" />
           
@@ -241,6 +284,29 @@
   
 
   
+    <!-- APlayer 音乐播放器 -->
+    <div id="aplayer"></div>
+    <script defer src="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.js" ></script>
+<link  rel="stylesheet" href="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.css" />
+<script type="text/javascript">
+  var oldLoadAp = window.onload;
+  window.onload = function () {
+    oldLoadAp && oldLoadAp();
+
+    new APlayer({
+      container: document.getElementById('aplayer'),
+      fixed: true,
+      autoplay: 'true' === 'true',
+      loop: 'all',
+      order: 'list',
+      theme: '#b7daff',
+      preload: 'none',
+      audio: [{"name":"等你下课","artist":"周杰伦","url":"http://mp.111ttt.cn/mp3music/40079875.mp3","cover":"/img/等你下课.jpg"},{"name":"飞云之下","artist":"林俊杰|韩红","url":"http://mp.111ttt.cn/mp3music/41212233.mp3","cover":"/img/飞云之下.jpg"}]
+    });
+  }
+</script>
+
+  
 
   
 
@@ -263,12 +329,19 @@
 <!-- SCRIPTS -->
 <script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
 <script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
 <script  src="/js/main.js" ></script>
 
+<!-- Plugins -->
 
-  <script  src="/js/lazyload.js" ></script>
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
 
 
+
+  
 
 
 
@@ -277,12 +350,9 @@
 
 
 
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
-
-<!-- Plugins -->
 
 
 
@@ -291,7 +361,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "关于&nbsp;",
+        "一旦你尝试过天空的味道，你就会永远向上仰望&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 100,
@@ -391,6 +461,8 @@
       }(window, document);
     </script>
   
+
+
 
 
 
