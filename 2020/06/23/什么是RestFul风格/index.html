@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="libo">
   <meta name="keywords" content="">
-  <title>Ajax的基本使用 ❤ libo</title>
+  <title>什么是RestFul风格？ ❤ libo</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-04-11 22:55" pubdate>
-        2020年4月11日 晚上
+      <time datetime="2020-06-23 22:24" pubdate>
+        2020年6月23日 晚上
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      1k 字
     </span>
   
 
@@ -199,7 +199,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      19
+      14
        分钟
     </span>
   
@@ -233,175 +233,105 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">Ajax的基本使用</h1>
+            <h1 style="display: none">什么是RestFul风格？</h1>
             
             <div class="markdown-body" id="post-body">
-              <h1 id="Ajax的作用"><a href="#Ajax的作用" class="headerlink" title="Ajax的作用"></a>Ajax的作用</h1><p>Ajax 是一种在无需重新加载整个网页的情况下，能够更新网页部分内容的技术，实现页面和 web 服务器之间数据的异步传输。<br>相当于只刷新页面的一部分而并不刷新整个页面(局部刷新而并非全局刷新)。</p>
-<blockquote>
-<p><font size=3>冷知识：Ajax全称 即“<strong>A</strong>synchronous <strong>J</strong>avascript <strong>A</strong>nd <strong>X</strong>ML”（异步 JavaScript 和 XML）<br><br/></p>
-<p><strong><font size=3>这里将一个简单的Ajax案例：</strong><br><strong><font size=3>获取input输入框中的值并将其以Ajax异步请求的方式请求请求后台，再由后台响应我们所需的数据放到div中(div中无内容)</strong><br><strong><font size=3>从而实现请求与响应，显示数据，并且请求为异步请求(Ajax)不刷新整个页面(局部刷新)</strong><br><strong><font size=3>方式呢就是这么个方式，具体使用根据开发中的应用场景(比如：评论，分页，搜索)</strong> </p>
-</blockquote>
-<h2 id="JS-javascript-方式编写Ajax："><a href="#JS-javascript-方式编写Ajax：" class="headerlink" title="JS(javascript)方式编写Ajax："></a>JS(javascript)方式编写Ajax：</h2><pre><code class="hljs java">&lt;%@ page contentType=<span class="hljs-string">"text/html;charset=UTF-8"</span> language=<span class="hljs-string">"java"</span> %&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Ajax&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;center&gt;
-    &lt;%--JS方式的Ajax--%&gt;
-    &lt;div id="div"&gt;&lt;/div&gt;
-    &lt;br/&gt;
-    输入：&lt;input type=<span class="hljs-string">"text"</span> id=<span class="hljs-string">"info"</span>&gt;
-    &lt;input type=<span class="hljs-string">"button"</span> value=<span class="hljs-string">"提交"</span> onclick=<span class="hljs-string">"ajax()"</span>&gt;
+              <h2 id="什么是RestFul风格？"><a href="#什么是RestFul风格？" class="headerlink" title="什么是RestFul风格？"></a>什么是RestFul风格？</h2><p>Restful就是一个资源定位及资源操作的风格。不是标准也不是协议，只是一种风格。基于这个风格设计的软件可以更简洁，更有层次，更易于实现缓存等机制。</p>
+<p>REST即Representational State Transfer的缩写，可译为”表现层状态转化”。REST最大的几个特点为：资源、统一接口、URI和无状态。</p>
+<h2 id="RestFul特点包括："><a href="#RestFul特点包括：" class="headerlink" title="RestFul特点包括："></a>RestFul特点包括：</h2><p>1、每一个URI代表1种资源；<br>2、客户端使用GET、POST、PUT、DELETE4个表示操作方式的动词对服务端资源进行操作：GET用来获取资源，POST用来新建资源（也可以用于更新资源），PUT用来更新资源，DELETE用来删除资源；<br>3、通过操作资源的表现形式来操作资源；<br>4、资源的表现形式是XML或者HTML；<br>5、客户端与服务端之间的交互在请求之间是无状态的，从客户端到服务端的每个请求都必须包含理解请求所必需的信息。</p>
+<h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><p>在WWW上，每一信息资源都有统一的且在网上唯一的地址，该地址就叫URL（Uniform Resource Locator,统一资源定位符），它是WWW的统一资源定位标志，就是指网络地址。<br>URL由三部分组成：资源类型、存放资源的主机域名、资源文件名。也可认为由4部分组成：协议、主机、端口、路径</p>
+<h2 id="传统方式的资源访问"><a href="#传统方式的资源访问" class="headerlink" title="传统方式的资源访问"></a>传统方式的资源访问</h2><p><a href="http://localhot:8080/item/select?id=1" target="_blank" rel="noopener">http://localhot:8080/item/select?id=1</a>       查询 GET<br><a href="http://localhot:8080/item/insert" target="_blank" rel="noopener">http://localhot:8080/item/insert</a>                 新增 POST<br><a href="http://localhot:8080/item/update" target="_blank" rel="noopener">http://localhot:8080/item/update</a>              更新 POST<br><a href="http://localhot:8080/item/delete?id=1" target="_blank" rel="noopener">http://localhot:8080/item/delete?id=1</a>      删除 DELETE</p>
+<p><strong>得出结论：传统方式请求地址都不同。</strong></p>
+<h2 id="RestFul风格"><a href="#RestFul风格" class="headerlink" title="RestFul风格"></a>RestFul风格</h2><p><strong>下面有两种不同请求URL方式(请求路径上参数的不同)</strong><br><strong><font color=red>@PathVariable：将URL请求路径参数映射到方法参数中<br>@GetMapping(path = “/add/{a}/{b}”) 等价于 @RequestMapping(path = “/add/{a}/{b}”,method = RequestMethod.GET)<br>不同的方式都用对应的注解：@GetMapping、@PostMapping、@PutMapping、@DeleteMapping相当于简写了代码</strong></p>
+<pre><code class="hljs java"><span class="hljs-meta">@Controller</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">testController</span> </span>&#123;
 
-&lt;/center&gt;
-&lt;/body&gt;
-&lt;script type=<span class="hljs-string">"text/javascript"</span>&gt;
-
-    <span class="hljs-keyword">var</span> xmlHttpRequest;
-
-    <span class="hljs-function">function <span class="hljs-title">ajax</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">var</span> info = document.getElementById(<span class="hljs-string">"info"</span>).value;
-
-<span class="hljs-comment">/*注：在JS中，如果创建对象使用var变量接收，代表只在该函数(function)中生效(局部变量)，不使用var接收则代表全局(全局变量)</span>
-<span class="hljs-comment">        在其他地方使用对象时前提是该函数(function)要提前执行(相当于赋值)*/</span>
-        <span class="hljs-comment">/*1.建立XMLHttpRequest对象：通过ajax异步方式 请求服务端 */</span>
-        xmlHttpRequest = <span class="hljs-keyword">new</span> XMLHttpRequest;
-
- <span class="hljs-comment">/*2.与服务器端交互的基本信息：open(方法名(提交方式get|post),服务器地址,true((true（异步）或 false（同步）)) :与服务端建立连接*/</span>
-        <span class="hljs-comment">// xmlHttpRequest.open("get","ajax/ajaxDemo1?info="+info,true);</span>
-        xmlHttpRequest.open(<span class="hljs-string">"post"</span>, <span class="hljs-string">"ajax/ajaxDemo"</span>, <span class="hljs-keyword">true</span>);
-
-        <span class="hljs-comment">/*3.设置头信息：setRequestHeader(header,value):</span>
-<span class="hljs-comment">                get:不需要设置此方法</span>
-<span class="hljs-comment">                post:需要设置：</span>
-<span class="hljs-comment">                    a.如果请求元素中包含了 文件上传：setRequestHeader("Content-Type","multipart/form-data");</span>
-<span class="hljs-comment">                    b.不包含了 文件上传：setRequestHeader("Content-Type","application/x-www-form-urlencoded")*/</span>
-        xmlHttpRequest.setRequestHeader(<span class="hljs-string">"Content-Type"</span>, <span class="hljs-string">"application/x-www-form-urlencoded"</span>);
-
-        <span class="hljs-comment">/*4.传入参数：xmlHttpRequest.send()</span>
-<span class="hljs-comment">                   get:	send(null)</span>
-<span class="hljs-comment">                  post:	send(参数值)*/</span>
-        <span class="hljs-comment">// xmlHttpRequest.send(null);</span>
-        xmlHttpRequest.send(<span class="hljs-string">"info="</span> + info);
-        <span class="hljs-comment">/*注：什么是回调函数：例如有 a()，b()，c()三个方法，b()是a()的回调函数，如果b()执行完则应该执行a()，而不是c()*/</span>
-        <span class="hljs-comment">/*5.注册回调函数(获取服务器响应数据)*/</span>
-        xmlHttpRequest.onreadystatechange = callBack;
+<span class="hljs-comment">//  @RequestMapping(path = "/add",method = RequestMethod.GET)</span>
+    <span class="hljs-meta">@GetMapping</span>(path = <span class="hljs-string">"/add"</span>)
+    <span class="hljs-meta">@ResponseBody</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span></span>&#123;
+        <span class="hljs-keyword">int</span> add = a+b;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"add1结果为："</span>+add;
     &#125;
 
-    <span class="hljs-function">function <span class="hljs-title">callBack</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">if</span> (xmlHttpRequest.readyState == <span class="hljs-number">4</span> &amp;&amp; xmlHttpRequest.status == <span class="hljs-number">200</span>) &#123;
-            <span class="hljs-comment">/*responseText：响应格式为String</span>
-<span class="hljs-comment">               responseXML：相应格式为XML*/</span>
-            <span class="hljs-comment">/*获取后端响应的信息(放到div中)*/</span>
-            <span class="hljs-keyword">var</span> data = xmlHttpRequest.responseText;
-            document.getElementById(<span class="hljs-string">"div"</span>).innerHTML = data;
+<span class="hljs-comment">//  @RequestMapping(path = "/add/&#123;a&#125;/&#123;b&#125;",method = RequestMethod.GET)</span>
+    <span class="hljs-meta">@GetMapping</span>(path = <span class="hljs-string">"/add/&#123;a&#125;/&#123;b&#125;"</span>)
+    <span class="hljs-meta">@ResponseBody</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">add2</span><span class="hljs-params">(@PathVariable <span class="hljs-keyword">int</span> a, @PathVariable <span class="hljs-keyword">int</span> b)</span></span>&#123;
+        <span class="hljs-keyword">int</span> add = a+b;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"add2结果为："</span>+add;
+    &#125;
+
+&#125;</code></pre>
+
+<p><img src="https://img-blog.csdnimg.cn/2020062320224850.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述">)<img src="https://img-blog.csdnimg.cn/20200623202014110.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>简单来理解的话RestFul风格就是请求路径相同，但根据不同的参数、请求方式不同而执行不同的方法，产生的结果也不同。<br>如果是传统方式有两个相同路径会直接报错<br><strong>再来强烈的感受一下。两种不同的请求方式：GET和POST</strong></p>
+<pre><code class="hljs java"><span class="hljs-meta">@Controller</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">testController</span> </span>&#123;
+
+<span class="hljs-comment">//    @RequestMapping(path = "/add/&#123;a&#125;/&#123;b&#125;",method = RequestMethod.GET)</span>
+        <span class="hljs-meta">@GetMapping</span>(path = <span class="hljs-string">"/add/&#123;a&#125;/&#123;b&#125;"</span>)
+        <span class="hljs-meta">@ResponseBody</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">add2</span><span class="hljs-params">(@PathVariable String a, @PathVariable String b)</span></span>&#123;
+            String add = a+b;
+            <span class="hljs-keyword">return</span> <span class="hljs-string">"GET结果为："</span>+add;
         &#125;
-    &#125;
 
-    <span class="hljs-comment">/*笔记：xmlHttpRequest.readyState ：请求状态 只有4为完全成功</span>
-<span class="hljs-comment">     　　0：请求未初始化(还没有调用 open())</span>
-<span class="hljs-comment">     　　1：请求已经建立，但是还没有发送（还没有调用 send()）</span>
-<span class="hljs-comment">     　　2：请求已发送，正在处理中（通常现在可以从响应中获取内容头）。</span>
-<span class="hljs-comment">     　　3：请求在处理中；通常响应中已有部分数据可用了，但是服务器还没有完成响应的生成。</span>
-<span class="hljs-comment">     　　4：响应已完成；您可以获取并使用服务器的响应了。</span>
-<span class="hljs-comment">        xmlHttpRequest.status：响应状态(相当于于http响应状态码，太多则不过多说明) 只有200为完全成功*/</span>
-&lt;/script&gt;
-&lt;/html&gt;</code></pre>
-<h2 id="JQ-jquery-方式使用Ajax："><a href="#JQ-jquery-方式使用Ajax：" class="headerlink" title="JQ(jquery)方式使用Ajax："></a>JQ(jquery)方式使用Ajax：</h2><blockquote>
-<p><font size=3><strong>看了上面JS的方式编写Ajax，写起来的确是有些繁琐</strong><br><font size=3><strong>接下来使用jquery方式编写4种类似的Ajax，相比JS方式简便很多</strong><br><font size=3><strong>$.ajax()方法中属性详解请参考：</strong> <a href="https://www.cnblogs.com/tylerdonet/p/3520862.html" target="_blank" rel="noopener">https://www.cnblogs.com/tylerdonet/p/3520862.html</a></p>
-</blockquote>
-<pre><code class="hljs java">&lt;%@ page contentType=<span class="hljs-string">"text/html;charset=UTF-8"</span> language=<span class="hljs-string">"java"</span> %&gt;
-&lt;html&gt;
+<span class="hljs-comment">//    @RequestMapping(path = "/add/&#123;a&#125;/&#123;b&#125;",method = RequestMethod.POST)</span>
+        <span class="hljs-meta">@PostMapping</span>(path = <span class="hljs-string">"/add/&#123;a&#125;/&#123;b&#125;"</span>)
+        <span class="hljs-meta">@ResponseBody</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">add4</span><span class="hljs-params">(@PathVariable String a, @PathVariable String b)</span></span>&#123;
+            String add = a+b;
+            <span class="hljs-keyword">return</span> <span class="hljs-string">"POST方式结果为："</span>+add;
+        &#125;
+&#125;</code></pre>
+
+<p><strong>创建一个表单模拟POST请求：</strong></p>
+<pre><code class="hljs java">&lt;!DOCTYPE html&gt;
+&lt;html lang=<span class="hljs-string">"en"</span>&gt;
 &lt;head&gt;
-    &lt;title&gt;Jquery -Ajax&lt;/title&gt;
+&lt;meta charset=<span class="hljs-string">"UTF-8"</span>&gt;
+&lt;title&gt;RestFul&lt;/title&gt;
 &lt;/head&gt;
 &lt;body&gt;
-&lt;center&gt;
-    &lt;%--JQ方式的ajax--%&gt;
-    &lt;div id="div"&gt;ajax：&lt;/div&gt;
-    &lt;br/&gt;
-    输入：&lt;input type=<span class="hljs-string">"text"</span> id=<span class="hljs-string">"info"</span>&gt;
-    &lt;input type=<span class="hljs-string">"button"</span> value=<span class="hljs-string">"提交"</span> onclick=<span class="hljs-string">"ajax()"</span>&gt;
-
-&lt;/center&gt;
+        &lt;form action=<span class="hljs-string">"http://127.0.0.1:8080/add/阿/波"</span> method=<span class="hljs-string">"post"</span> &gt;
+            &lt;input type=<span class="hljs-string">"submit"</span>&gt;
+        &lt;/form&gt;
 &lt;/body&gt;
-&lt;script type="text/javascript" src="js/jquery-3.1.1.min.js"&gt;&lt;/script&gt;
-&lt;script type=<span class="hljs-string">"text/javascript"</span>&gt;
-    <span class="hljs-function">function <span class="hljs-title">ajax</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-comment">//var info = document.getElementById("info").value;</span>
-        <span class="hljs-keyword">var</span> info = $(<span class="hljs-string">"#info"</span>).val();
-
-        $.ajax(&#123;
-            <span class="hljs-comment">/* url：请求地址(可以带参数：url:    "ajax/ajaxDemo?info="+info,)*/</span>
-            url:    <span class="hljs-string">"ajax/ajaxDemo"</span>,
-            <span class="hljs-comment">/*async：默认设置为true，代表为异步请求   false则为同步请求*/</span>
-            async:  <span class="hljs-keyword">true</span>,
-            <span class="hljs-comment">/*type：请求方式*/</span>
-            type:   <span class="hljs-string">"get"</span>,
-            <span class="hljs-comment">/*data：请求参数(和js的send方法区别：get和post都可以直接填入  请求参数   名称+值*/</span>
-            data:   <span class="hljs-string">"info="</span> + info,
-            <span class="hljs-comment">/*dataType：服务器响应类型(例如text(纯文本)、json(json数据)、xml(xml文档))*/</span>
-            dataType:   <span class="hljs-string">"text"</span>,
-            <span class="hljs-comment">/*success：请求成功后调用的回调函数(由服务器返回，并根据dataType参数进行处理后的数据)*/</span>
-            success: function (data) &#123;
-                $(<span class="hljs-string">"#div"</span>).html(data);
-            &#125;,
-            <span class="hljs-comment">/*error：请求失败时被调用的函数*/</span>
-            error: function () &#123;
-                $(<span class="hljs-string">"#div"</span>).html(<span class="hljs-string">"服务器响应失败!"</span>);
-            &#125;
-        &#125;);
-
-
-<span class="hljs-comment">/*--------------------------------------------------------------------------------------------------------*/</span>
-        <span class="hljs-comment">/*$.get()不写参数名，但必须按照参数的顺序进行配置*/</span>
-        $.get(
-            <span class="hljs-comment">/*请求地址*/</span>
-             <span class="hljs-string">"ajax/ajaxDemo"</span>,
-            <span class="hljs-comment">/*请求参数   名称+值*/</span>
-            <span class="hljs-string">"info="</span> + info,
-            <span class="hljs-comment">/*回调函数*/</span>
-            function (data)&#123;
-                $(<span class="hljs-string">"#div"</span>).html(data);
-            &#125;,
-            <span class="hljs-comment">/*服务器响应类型*/</span>
-        <span class="hljs-string">"text"</span>
-        );
-
-
-<span class="hljs-comment">/*--------------------------------------------------------------------------------------------------------*/</span>
-        <span class="hljs-comment">/*$.post()不写参数名，但必须按照参数的顺序进行配置*/</span>
-        $.post(
-            <span class="hljs-comment">/*请求地址*/</span>
-            <span class="hljs-string">"ajax/ajaxDemo"</span>,
-           <span class="hljs-comment">/*请求参数   名称+值*/</span>
-            <span class="hljs-string">"info="</span> + info,
-            <span class="hljs-comment">/*回调函数*/</span>
-            function (data)&#123;
-                $(<span class="hljs-string">"#div"</span>).html(data);
-                <span class="hljs-keyword">if</span>(data == <span class="hljs-keyword">null</span> || data == <span class="hljs-string">""</span>)&#123;
-                    alert(<span class="hljs-string">"服务器响应为null"</span>);
-                &#125;
-            &#125;,
-            <span class="hljs-comment">/*服务器响应类型*/</span>
-            <span class="hljs-string">"text"</span>
-        );
-
-
-<span class="hljs-comment">/*--------------------------------------------------------------------------------------------------------*/</span>
-        <span class="hljs-comment">/*load:将服务端的返回值  直接加载到$(xxx)所选择的元素中 例如案例的div*/</span>
-        $(<span class="hljs-string">"#div"</span>).load(
-            <span class="hljs-comment">/*请求地址*/</span>
-            <span class="hljs-string">"ajax/ajaxDemo"</span>,
-            <span class="hljs-comment">/*请求参数   名称+值*/</span>
-            <span class="hljs-string">"info="</span>+info
-        );
-    &#125;
-&lt;/script&gt;
 &lt;/html&gt;</code></pre>
+<p><strong>访问路径相同(URL)、参数相同，来看看产生的不同结果：</strong><br><img src="https://img-blog.csdnimg.cn/20200623220011492.png" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200623220011492.png" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>RestFul主要是保护了我们请求头的数据，如果是传统方式，两个相同的请求路径，请求方式不同也可以实现<br><strong>传统方式：</strong></p>
+<pre><code class="hljs java"><span class="hljs-comment">//    @RequestMapping(path = "/add",method = RequestMethod.GET)</span>
+        <span class="hljs-meta">@GetMapping</span>(path = <span class="hljs-string">"/add"</span>)
+        <span class="hljs-meta">@ResponseBody</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">add1</span><span class="hljs-params">(String a, String b)</span></span>&#123;
+            String add = a+b;
+            <span class="hljs-keyword">return</span> <span class="hljs-string">"GET结果为："</span>+add;
+        &#125;
+        
 
-<p><strong>本篇文章还缺少一个重要的知识点、也是和Ajax挂钩的，那就是JSON数据格式，本人也正在学习将JSON类型数据请求到后台再响应JSON数据格式给前台。到时候我会在发一篇文章介绍JSON或者到时候会修改本篇文章将JSON知识点补上。</strong></p>
+<span class="hljs-comment">//     @RequestMapping(path = "/add",method = RequestMethod.POST)</span>
+        <span class="hljs-meta">@PostMapping</span>(path = <span class="hljs-string">"/add"</span>)
+        <span class="hljs-meta">@ResponseBody</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">add2</span><span class="hljs-params">(String a, String b)</span></span>&#123;
+            String add = a+b;
+            <span class="hljs-keyword">return</span> <span class="hljs-string">"POST结果为："</span>+add;
+        &#125;</code></pre>
+
+<p><strong>创建一个表单模拟传统方式POST请求：</strong></p>
+<pre><code class="hljs java">&lt;!DOCTYPE html&gt;
+&lt;html lang=<span class="hljs-string">"en"</span>&gt;
+&lt;head&gt;
+&lt;meta charset=<span class="hljs-string">"UTF-8"</span>&gt;
+&lt;title&gt;Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+        &lt;form action=<span class="hljs-string">"http://127.0.0.1:8080/add"</span> method=<span class="hljs-string">"post"</span> &gt;
+            &lt;input type=<span class="hljs-string">"text"</span> name=<span class="hljs-string">"a"</span>&gt;
+            &lt;input type=<span class="hljs-string">"text"</span> name=<span class="hljs-string">"b"</span>&gt;
+            &lt;input type=<span class="hljs-string">"submit"</span>&gt;
+        &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200623222316919.png" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200623222307963.png" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200623222254406.png" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
 
             </div>
             <hr>
@@ -419,7 +349,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Ajax/">Ajax</a>
+                      <a class="hover-with-bg" href="/tags/RestFul/">RestFul</a>
                     
                   </div>
                 
@@ -432,18 +362,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/20/Java%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%8F%91%E9%80%81%E6%89%8B%E6%9C%BA%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Java如何实现发送手机短信验证码</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/04/07/SpringMVC%E6%A1%86%E6%9E%B6%E7%BC%96%E5%86%99%E9%AA%8C%E8%AF%81%E7%A0%81./">
-                        <span class="hidden-mobile">SpringMVC框架编写后端验证码</span>
+                      <a href="/2020/06/23/swagger%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/">
+                        <span class="hidden-mobile">swagger介绍及使用</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -609,7 +533,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Ajax的基本使用&nbsp;",
+        "什么是RestFul风格？&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 100,

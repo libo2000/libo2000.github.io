@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="libo">
   <meta name="keywords" content="">
-  <title>Ajax的基本使用 ❤ libo</title>
+  <title>Java如何实现发送手机短信验证码 ❤ libo</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-04-11 22:55" pubdate>
-        2020年4月11日 晚上
+      <time datetime="2020-05-20 16:09" pubdate>
+        2020年5月20日 下午
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      935 字
     </span>
   
 
@@ -199,7 +199,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      19
+      11
        分钟
     </span>
   
@@ -233,176 +233,137 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">Ajax的基本使用</h1>
+            <h1 style="display: none">Java如何实现发送手机短信验证码</h1>
             
             <div class="markdown-body" id="post-body">
-              <h1 id="Ajax的作用"><a href="#Ajax的作用" class="headerlink" title="Ajax的作用"></a>Ajax的作用</h1><p>Ajax 是一种在无需重新加载整个网页的情况下，能够更新网页部分内容的技术，实现页面和 web 服务器之间数据的异步传输。<br>相当于只刷新页面的一部分而并不刷新整个页面(局部刷新而并非全局刷新)。</p>
+              <h2 id="阿里云短信业务实战教程"><a href="#阿里云短信业务实战教程" class="headerlink" title="阿里云短信业务实战教程"></a>阿里云短信业务实战教程</h2><p>手机短信验证码接口适用于触发类的应用,如用户获取验证码、手机找回密码、手机短信订单通知等;具体表现为由用户的某一个事件或操作所触发的短信。最主要的作用就是确定每一个操作都是用户本人自己触发的。<em>(发送手机验证码有很多个平台，本次测试使用阿里云)</em></p>
+<p><strong>除了手机短信验证码，对邮件发送感兴趣的朋友可以看我另一篇博客：<a href="https://blog.csdn.net/weixin_45377770/article/details/106392057" target="_blank" rel="noopener">SpringBoot实现发送邮件(验证码,文本,附件)</a></strong></p>
+<h2 id="1-阿里云平台的使用"><a href="#1-阿里云平台的使用" class="headerlink" title="1.阿里云平台的使用"></a>1.阿里云平台的使用</h2><blockquote>
+<p><strong>登陆阿里云网站，进入控制台(支付宝，淘宝都可以登陆需要实名认证)</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200520143503826.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
 <blockquote>
-<p><font size=3>冷知识：Ajax全称 即“<strong>A</strong>synchronous <strong>J</strong>avascript <strong>A</strong>nd <strong>X</strong>ML”（异步 JavaScript 和 XML）<br><br/></p>
-<p><strong><font size=3>这里将一个简单的Ajax案例：</strong><br><strong><font size=3>获取input输入框中的值并将其以Ajax异步请求的方式请求请求后台，再由后台响应我们所需的数据放到div中(div中无内容)</strong><br><strong><font size=3>从而实现请求与响应，显示数据，并且请求为异步请求(Ajax)不刷新整个页面(局部刷新)</strong><br><strong><font size=3>方式呢就是这么个方式，具体使用根据开发中的应用场景(比如：评论，分页，搜索)</strong> </p>
+<p><strong>点击用户头像，选择AccessKey管理</strong></p>
 </blockquote>
-<h2 id="JS-javascript-方式编写Ajax："><a href="#JS-javascript-方式编写Ajax：" class="headerlink" title="JS(javascript)方式编写Ajax："></a>JS(javascript)方式编写Ajax：</h2><pre><code class="hljs java">&lt;%@ page contentType=<span class="hljs-string">"text/html;charset=UTF-8"</span> language=<span class="hljs-string">"java"</span> %&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Ajax&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;center&gt;
-    &lt;%--JS方式的Ajax--%&gt;
-    &lt;div id="div"&gt;&lt;/div&gt;
-    &lt;br/&gt;
-    输入：&lt;input type=<span class="hljs-string">"text"</span> id=<span class="hljs-string">"info"</span>&gt;
-    &lt;input type=<span class="hljs-string">"button"</span> value=<span class="hljs-string">"提交"</span> onclick=<span class="hljs-string">"ajax()"</span>&gt;
-
-&lt;/center&gt;
-&lt;/body&gt;
-&lt;script type=<span class="hljs-string">"text/javascript"</span>&gt;
-
-    <span class="hljs-keyword">var</span> xmlHttpRequest;
-
-    <span class="hljs-function">function <span class="hljs-title">ajax</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">var</span> info = document.getElementById(<span class="hljs-string">"info"</span>).value;
-
-<span class="hljs-comment">/*注：在JS中，如果创建对象使用var变量接收，代表只在该函数(function)中生效(局部变量)，不使用var接收则代表全局(全局变量)</span>
-<span class="hljs-comment">        在其他地方使用对象时前提是该函数(function)要提前执行(相当于赋值)*/</span>
-        <span class="hljs-comment">/*1.建立XMLHttpRequest对象：通过ajax异步方式 请求服务端 */</span>
-        xmlHttpRequest = <span class="hljs-keyword">new</span> XMLHttpRequest;
-
- <span class="hljs-comment">/*2.与服务器端交互的基本信息：open(方法名(提交方式get|post),服务器地址,true((true（异步）或 false（同步）)) :与服务端建立连接*/</span>
-        <span class="hljs-comment">// xmlHttpRequest.open("get","ajax/ajaxDemo1?info="+info,true);</span>
-        xmlHttpRequest.open(<span class="hljs-string">"post"</span>, <span class="hljs-string">"ajax/ajaxDemo"</span>, <span class="hljs-keyword">true</span>);
-
-        <span class="hljs-comment">/*3.设置头信息：setRequestHeader(header,value):</span>
-<span class="hljs-comment">                get:不需要设置此方法</span>
-<span class="hljs-comment">                post:需要设置：</span>
-<span class="hljs-comment">                    a.如果请求元素中包含了 文件上传：setRequestHeader("Content-Type","multipart/form-data");</span>
-<span class="hljs-comment">                    b.不包含了 文件上传：setRequestHeader("Content-Type","application/x-www-form-urlencoded")*/</span>
-        xmlHttpRequest.setRequestHeader(<span class="hljs-string">"Content-Type"</span>, <span class="hljs-string">"application/x-www-form-urlencoded"</span>);
-
-        <span class="hljs-comment">/*4.传入参数：xmlHttpRequest.send()</span>
-<span class="hljs-comment">                   get:	send(null)</span>
-<span class="hljs-comment">                  post:	send(参数值)*/</span>
-        <span class="hljs-comment">// xmlHttpRequest.send(null);</span>
-        xmlHttpRequest.send(<span class="hljs-string">"info="</span> + info);
-        <span class="hljs-comment">/*注：什么是回调函数：例如有 a()，b()，c()三个方法，b()是a()的回调函数，如果b()执行完则应该执行a()，而不是c()*/</span>
-        <span class="hljs-comment">/*5.注册回调函数(获取服务器响应数据)*/</span>
-        xmlHttpRequest.onreadystatechange = callBack;
-    &#125;
-
-    <span class="hljs-function">function <span class="hljs-title">callBack</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">if</span> (xmlHttpRequest.readyState == <span class="hljs-number">4</span> &amp;&amp; xmlHttpRequest.status == <span class="hljs-number">200</span>) &#123;
-            <span class="hljs-comment">/*responseText：响应格式为String</span>
-<span class="hljs-comment">               responseXML：相应格式为XML*/</span>
-            <span class="hljs-comment">/*获取后端响应的信息(放到div中)*/</span>
-            <span class="hljs-keyword">var</span> data = xmlHttpRequest.responseText;
-            document.getElementById(<span class="hljs-string">"div"</span>).innerHTML = data;
-        &#125;
-    &#125;
-
-    <span class="hljs-comment">/*笔记：xmlHttpRequest.readyState ：请求状态 只有4为完全成功</span>
-<span class="hljs-comment">     　　0：请求未初始化(还没有调用 open())</span>
-<span class="hljs-comment">     　　1：请求已经建立，但是还没有发送（还没有调用 send()）</span>
-<span class="hljs-comment">     　　2：请求已发送，正在处理中（通常现在可以从响应中获取内容头）。</span>
-<span class="hljs-comment">     　　3：请求在处理中；通常响应中已有部分数据可用了，但是服务器还没有完成响应的生成。</span>
-<span class="hljs-comment">     　　4：响应已完成；您可以获取并使用服务器的响应了。</span>
-<span class="hljs-comment">        xmlHttpRequest.status：响应状态(相当于于http响应状态码，太多则不过多说明) 只有200为完全成功*/</span>
-&lt;/script&gt;
-&lt;/html&gt;</code></pre>
-<h2 id="JQ-jquery-方式使用Ajax："><a href="#JQ-jquery-方式使用Ajax：" class="headerlink" title="JQ(jquery)方式使用Ajax："></a>JQ(jquery)方式使用Ajax：</h2><blockquote>
-<p><font size=3><strong>看了上面JS的方式编写Ajax，写起来的确是有些繁琐</strong><br><font size=3><strong>接下来使用jquery方式编写4种类似的Ajax，相比JS方式简便很多</strong><br><font size=3><strong>$.ajax()方法中属性详解请参考：</strong> <a href="https://www.cnblogs.com/tylerdonet/p/3520862.html" target="_blank" rel="noopener">https://www.cnblogs.com/tylerdonet/p/3520862.html</a></p>
+<p><img src="https://img-blog.csdnimg.cn/202005201442035.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>选择开始使用子用户AccessKey</strong></p>
 </blockquote>
-<pre><code class="hljs java">&lt;%@ page contentType=<span class="hljs-string">"text/html;charset=UTF-8"</span> language=<span class="hljs-string">"java"</span> %&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Jquery -Ajax&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;center&gt;
-    &lt;%--JQ方式的ajax--%&gt;
-    &lt;div id="div"&gt;ajax：&lt;/div&gt;
-    &lt;br/&gt;
-    输入：&lt;input type=<span class="hljs-string">"text"</span> id=<span class="hljs-string">"info"</span>&gt;
-    &lt;input type=<span class="hljs-string">"button"</span> value=<span class="hljs-string">"提交"</span> onclick=<span class="hljs-string">"ajax()"</span>&gt;
+<p><img src="https://img-blog.csdnimg.cn/20200520144428996.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<h2 id="2-创建用户组及用户并添加权限"><a href="#2-创建用户组及用户并添加权限" class="headerlink" title="2.创建用户组及用户并添加权限"></a>2.创建用户组及用户并添加权限</h2><blockquote>
+<p><strong>创建用户组</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200520144716883.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>添加短信服务的权限SMS(代表用户组下的所有用户都有此权限)</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200520144808232.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>创建用户<font color=red>(注：这里一定要开启编程访问)</font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200520145043616.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>创建用户后，<font color=red>要把AccessKey ID和AccessKey Secret着两个值保存下来(可以直接点复制)</font></strong><br><strong>在后面的编程中会使用到着两个值</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/2020052014545726.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>将用户添加到用户组下</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/2020052014510559.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<h2 id="3-添加短信签名和短信模板并充值费用"><a href="#3-添加短信签名和短信模板并充值费用" class="headerlink" title="3.添加短信签名和短信模板并充值费用"></a>3.添加短信签名和短信模板并充值费用</h2><blockquote>
+<p><strong>搜索短信服务</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/2020052015000428.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>来到短信服务页面之后，可以看看快速学习或者帮助文档来对阿里云短信服务做具体了解</strong><br><strong>接下来签名管理和模板管理我们都需要进行填写</strong><br><strong>选择添加签名</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200520150115681.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>填写签名信息</strong><br><strong>签名不可以使用人名(否则过不了审核)，申请说明就写：用于公司的登陆及注册业务，就可以了</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200520150309218.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>添加模板</strong><br><strong><font color=red>模板内容：您的验证码为：${code},该验证码5分钟内有效，请勿泄露于他人。</font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/2020052015085833.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong><font color=red>短信签名和短信模板这里都必须审核通过之后才能使用</font></strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200520151417404.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>点击进入费用</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200520151745163.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>这里我们用于测试，充值个1块钱就可以了</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200520151905992.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>返回之前的页面，查看帮助文档</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200520152042951.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>使用Java发送验证码，当然是选Java SDK啦，右侧是目录(可以进行参考)</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200520152118639.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>到这里关于阿里云的就差不多了</strong></p>
+</blockquote>
+<h2 id="4-开发工具进行代码部分-这里使用IDEA"><a href="#4-开发工具进行代码部分-这里使用IDEA" class="headerlink" title="4.开发工具进行代码部分(这里使用IDEA)"></a>4.开发工具进行代码部分(这里使用IDEA)</h2><blockquote>
+<p><strong>在Maven工程中导入两个依赖</strong></p>
+</blockquote>
+<pre><code class="hljs java">&lt;!--短信验证码(阿里云)--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.aliyun&lt;/groupId&gt;
+    &lt;artifactId&gt;aliyun-java-sdk-core&lt;/artifactId&gt;
+    &lt;version&gt;4.1.0&lt;/version&gt;
+&lt;/dependency&gt;
 
-&lt;/center&gt;
-&lt;/body&gt;
-&lt;script type="text/javascript" src="js/jquery-3.1.1.min.js"&gt;&lt;/script&gt;
-&lt;script type=<span class="hljs-string">"text/javascript"</span>&gt;
-    <span class="hljs-function">function <span class="hljs-title">ajax</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-comment">//var info = document.getElementById("info").value;</span>
-        <span class="hljs-keyword">var</span> info = $(<span class="hljs-string">"#info"</span>).val();
+&lt;!--JSON--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+    &lt;artifactId&gt;fastjson&lt;/artifactId&gt;
+    &lt;version&gt;1.2.45&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
 
-        $.ajax(&#123;
-            <span class="hljs-comment">/* url：请求地址(可以带参数：url:    "ajax/ajaxDemo?info="+info,)*/</span>
-            url:    <span class="hljs-string">"ajax/ajaxDemo"</span>,
-            <span class="hljs-comment">/*async：默认设置为true，代表为异步请求   false则为同步请求*/</span>
-            async:  <span class="hljs-keyword">true</span>,
-            <span class="hljs-comment">/*type：请求方式*/</span>
-            type:   <span class="hljs-string">"get"</span>,
-            <span class="hljs-comment">/*data：请求参数(和js的send方法区别：get和post都可以直接填入  请求参数   名称+值*/</span>
-            data:   <span class="hljs-string">"info="</span> + info,
-            <span class="hljs-comment">/*dataType：服务器响应类型(例如text(纯文本)、json(json数据)、xml(xml文档))*/</span>
-            dataType:   <span class="hljs-string">"text"</span>,
-            <span class="hljs-comment">/*success：请求成功后调用的回调函数(由服务器返回，并根据dataType参数进行处理后的数据)*/</span>
-            success: function (data) &#123;
-                $(<span class="hljs-string">"#div"</span>).html(data);
-            &#125;,
-            <span class="hljs-comment">/*error：请求失败时被调用的函数*/</span>
-            error: function () &#123;
-                $(<span class="hljs-string">"#div"</span>).html(<span class="hljs-string">"服务器响应失败!"</span>);
-            &#125;
-        &#125;);
+<blockquote>
+<p><strong>进入查看示例源码</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200520155051264.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200520155246625.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>在项目中新建一个测试类(或者main方法直接运行)</strong><br><strong><font color=red>下面需要修改的地方都写了标识1-5，一共有5处需要修改，其他的都不需要修改</font></strong><br><strong><font color=red>注：AccessKey ID和AccessKey Secre就是前面创建用户所保存的信息</font></strong></p>
+</blockquote>
+<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">contextLoads</span><span class="hljs-params">()</span> </span>&#123;
+    DefaultProfile profile = DefaultProfile.getProfile(<span class="hljs-string">"cn-hangzhou"</span>, 
+    <span class="hljs-string">"1这里填入阿里云用户的AccessKey ID"</span>, <span class="hljs-string">"2这里填入阿里云用户的AccessKey Secre"</span>);
+    IAcsClient client = <span class="hljs-keyword">new</span> DefaultAcsClient(profile);
 
+    CommonRequest request = <span class="hljs-keyword">new</span> CommonRequest();
+    request.setMethod(MethodType.POST);
+    request.setDomain(<span class="hljs-string">"dysmsapi.aliyuncs.com"</span>);
+    request.setVersion(<span class="hljs-string">"2017-05-25"</span>);
+    request.setAction(<span class="hljs-string">"SendSms"</span>);
+    request.putQueryParameter(<span class="hljs-string">"PhoneNumbers"</span>,<span class="hljs-string">"3目标手机号"</span> );
+    request.putQueryParameter(<span class="hljs-string">"SignName"</span>, <span class="hljs-string">"4短信签名"</span>);
+    request.putQueryParameter(<span class="hljs-string">"TemplateCode"</span>, <span class="hljs-string">"5短信模版CODE"</span>);
 
-<span class="hljs-comment">/*--------------------------------------------------------------------------------------------------------*/</span>
-        <span class="hljs-comment">/*$.get()不写参数名，但必须按照参数的顺序进行配置*/</span>
-        $.get(
-            <span class="hljs-comment">/*请求地址*/</span>
-             <span class="hljs-string">"ajax/ajaxDemo"</span>,
-            <span class="hljs-comment">/*请求参数   名称+值*/</span>
-            <span class="hljs-string">"info="</span> + info,
-            <span class="hljs-comment">/*回调函数*/</span>
-            function (data)&#123;
-                $(<span class="hljs-string">"#div"</span>).html(data);
-            &#125;,
-            <span class="hljs-comment">/*服务器响应类型*/</span>
-        <span class="hljs-string">"text"</span>
-        );
+    <span class="hljs-comment">/*生成随机4位验证码*/</span>
+    String code = UUID.randomUUID().toString().substring(<span class="hljs-number">0</span>,<span class="hljs-number">4</span>);
+    Map&lt;String,Object&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+    map.put(<span class="hljs-string">"code"</span>,code);
+    request.putQueryParameter(<span class="hljs-string">"TemplateParam"</span>, JSONObject.toJSONString(map));
 
-
-<span class="hljs-comment">/*--------------------------------------------------------------------------------------------------------*/</span>
-        <span class="hljs-comment">/*$.post()不写参数名，但必须按照参数的顺序进行配置*/</span>
-        $.post(
-            <span class="hljs-comment">/*请求地址*/</span>
-            <span class="hljs-string">"ajax/ajaxDemo"</span>,
-           <span class="hljs-comment">/*请求参数   名称+值*/</span>
-            <span class="hljs-string">"info="</span> + info,
-            <span class="hljs-comment">/*回调函数*/</span>
-            function (data)&#123;
-                $(<span class="hljs-string">"#div"</span>).html(data);
-                <span class="hljs-keyword">if</span>(data == <span class="hljs-keyword">null</span> || data == <span class="hljs-string">""</span>)&#123;
-                    alert(<span class="hljs-string">"服务器响应为null"</span>);
-                &#125;
-            &#125;,
-            <span class="hljs-comment">/*服务器响应类型*/</span>
-            <span class="hljs-string">"text"</span>
-        );
-
-
-<span class="hljs-comment">/*--------------------------------------------------------------------------------------------------------*/</span>
-        <span class="hljs-comment">/*load:将服务端的返回值  直接加载到$(xxx)所选择的元素中 例如案例的div*/</span>
-        $(<span class="hljs-string">"#div"</span>).load(
-            <span class="hljs-comment">/*请求地址*/</span>
-            <span class="hljs-string">"ajax/ajaxDemo"</span>,
-            <span class="hljs-comment">/*请求参数   名称+值*/</span>
-            <span class="hljs-string">"info="</span>+info
-        );
+    <span class="hljs-keyword">try</span> &#123;
+        CommonResponse response = client.getCommonResponse(request);
+        System.out.println(response.getData());
+    &#125; <span class="hljs-keyword">catch</span> (ServerException e) &#123;
+        e.printStackTrace();
+    &#125; <span class="hljs-keyword">catch</span> (ClientException e) &#123;
+        e.printStackTrace();
     &#125;
-&lt;/script&gt;
-&lt;/html&gt;</code></pre>
-
-<p><strong>本篇文章还缺少一个重要的知识点、也是和Ajax挂钩的，那就是JSON数据格式，本人也正在学习将JSON类型数据请求到后台再响应JSON数据格式给前台。到时候我会在发一篇文章介绍JSON或者到时候会修改本篇文章将JSON知识点补上。</strong></p>
-
+&#125;</code></pre>
             </div>
             <hr>
             <div>
@@ -419,7 +380,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Ajax/">Ajax</a>
+                      <a class="hover-with-bg" href="/tags/%E6%89%8B%E6%9C%BA%E9%AA%8C%E8%AF%81%E7%A0%81/">手机验证码</a>
                     
                   </div>
                 
@@ -432,9 +393,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/20/Java%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%8F%91%E9%80%81%E6%89%8B%E6%9C%BA%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81/">
+                      <a href="/2020/05/27/SpringBoot%E5%AE%9E%E7%8E%B0%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6(%E9%AA%8C%E8%AF%81%E7%A0%81,%E6%96%87%E6%9C%AC,%E9%99%84%E4%BB%B6)/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Java如何实现发送手机短信验证码</span>
+                        <span class="hidden-mobile">SpringBoot实现发送邮件(验证码,文本,附件)</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -442,8 +403,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/04/07/SpringMVC%E6%A1%86%E6%9E%B6%E7%BC%96%E5%86%99%E9%AA%8C%E8%AF%81%E7%A0%81./">
-                        <span class="hidden-mobile">SpringMVC框架编写后端验证码</span>
+                      <a href="/2020/04/11/Ajax%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">
+                        <span class="hidden-mobile">Ajax的基本使用</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -609,7 +570,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Ajax的基本使用&nbsp;",
+        "Java如何实现发送手机短信验证码&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 100,

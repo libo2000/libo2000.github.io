@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="libo">
   <meta name="keywords" content="">
-  <title>Ajax的基本使用 ❤ libo</title>
+  <title>SpringBoot实现发送邮件(验证码,文本,附件) ❤ libo</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-04-11 22:55" pubdate>
-        2020年4月11日 晚上
+      <time datetime="2020-05-27 23:25" pubdate>
+        2020年5月27日 晚上
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      971 字
     </span>
   
 
@@ -199,7 +199,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      19
+      11
        分钟
     </span>
   
@@ -233,175 +233,95 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">Ajax的基本使用</h1>
+            <h1 style="display: none">SpringBoot实现发送邮件(验证码,文本,附件)</h1>
             
             <div class="markdown-body" id="post-body">
-              <h1 id="Ajax的作用"><a href="#Ajax的作用" class="headerlink" title="Ajax的作用"></a>Ajax的作用</h1><p>Ajax 是一种在无需重新加载整个网页的情况下，能够更新网页部分内容的技术，实现页面和 web 服务器之间数据的异步传输。<br>相当于只刷新页面的一部分而并不刷新整个页面(局部刷新而并非全局刷新)。</p>
+              <h2 id="SpringBoot发送邮箱信息"><a href="#SpringBoot发送邮箱信息" class="headerlink" title="SpringBoot发送邮箱信息"></a>SpringBoot发送邮箱信息</h2><p> <strong>验证码的作用：网上找的解答，防止恶意注册和暴力破解所谓恶意注册和暴力破解都是用软件进行的。<br>人工注册再快，也需要一项一项输入资料，速度很慢，对服务器基本没有影响。如果没有验证码可以使用软件注册的话，可以同时运行成千上万个线程，一次能注册成千上万个用户，让服务器的数据库很快变得臃肿不堪，运行效率下降。如果一个无聊的人或竞争对手对某网站怀有敌意，那么这种方法很容易就能让对方瘫痪。</strong></p>
+<p><strong>除了邮箱验证码，对手机验证码感兴趣的朋友可以看我另一篇博客：<a href="https://blog.csdn.net/weixin_45377770/article/details/106235791" target="_blank" rel="noopener">Java如何实现发送手机短信验证码</a></strong></p>
+<h2 id="1-配置测试邮箱"><a href="#1-配置测试邮箱" class="headerlink" title="1. 配置测试邮箱"></a>1. 配置测试邮箱</h2><blockquote>
+<p><font color=red><strong>这里选用QQ邮箱进行测试(也可以选择其他邮箱，可能相关的配置不同)</strong></font><br><font color=red><strong>1. 首先登陆进邮箱，进入设置</strong></font></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/2020052722230677.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
 <blockquote>
-<p><font size=3>冷知识：Ajax全称 即“<strong>A</strong>synchronous <strong>J</strong>avascript <strong>A</strong>nd <strong>X</strong>ML”（异步 JavaScript 和 XML）<br><br/></p>
-<p><strong><font size=3>这里将一个简单的Ajax案例：</strong><br><strong><font size=3>获取input输入框中的值并将其以Ajax异步请求的方式请求请求后台，再由后台响应我们所需的数据放到div中(div中无内容)</strong><br><strong><font size=3>从而实现请求与响应，显示数据，并且请求为异步请求(Ajax)不刷新整个页面(局部刷新)</strong><br><strong><font size=3>方式呢就是这么个方式，具体使用根据开发中的应用场景(比如：评论，分页，搜索)</strong> </p>
+<p><font color=red><strong>2. 在设置中找到服务一栏，选择把POP3/SMTP服务开启(注：我这里使用过，所以已经是开启的)</strong></font></p>
 </blockquote>
-<h2 id="JS-javascript-方式编写Ajax："><a href="#JS-javascript-方式编写Ajax：" class="headerlink" title="JS(javascript)方式编写Ajax："></a>JS(javascript)方式编写Ajax：</h2><pre><code class="hljs java">&lt;%@ page contentType=<span class="hljs-string">"text/html;charset=UTF-8"</span> language=<span class="hljs-string">"java"</span> %&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Ajax&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;center&gt;
-    &lt;%--JS方式的Ajax--%&gt;
-    &lt;div id="div"&gt;&lt;/div&gt;
-    &lt;br/&gt;
-    输入：&lt;input type=<span class="hljs-string">"text"</span> id=<span class="hljs-string">"info"</span>&gt;
-    &lt;input type=<span class="hljs-string">"button"</span> value=<span class="hljs-string">"提交"</span> onclick=<span class="hljs-string">"ajax()"</span>&gt;
-
-&lt;/center&gt;
-&lt;/body&gt;
-&lt;script type=<span class="hljs-string">"text/javascript"</span>&gt;
-
-    <span class="hljs-keyword">var</span> xmlHttpRequest;
-
-    <span class="hljs-function">function <span class="hljs-title">ajax</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">var</span> info = document.getElementById(<span class="hljs-string">"info"</span>).value;
-
-<span class="hljs-comment">/*注：在JS中，如果创建对象使用var变量接收，代表只在该函数(function)中生效(局部变量)，不使用var接收则代表全局(全局变量)</span>
-<span class="hljs-comment">        在其他地方使用对象时前提是该函数(function)要提前执行(相当于赋值)*/</span>
-        <span class="hljs-comment">/*1.建立XMLHttpRequest对象：通过ajax异步方式 请求服务端 */</span>
-        xmlHttpRequest = <span class="hljs-keyword">new</span> XMLHttpRequest;
-
- <span class="hljs-comment">/*2.与服务器端交互的基本信息：open(方法名(提交方式get|post),服务器地址,true((true（异步）或 false（同步）)) :与服务端建立连接*/</span>
-        <span class="hljs-comment">// xmlHttpRequest.open("get","ajax/ajaxDemo1?info="+info,true);</span>
-        xmlHttpRequest.open(<span class="hljs-string">"post"</span>, <span class="hljs-string">"ajax/ajaxDemo"</span>, <span class="hljs-keyword">true</span>);
-
-        <span class="hljs-comment">/*3.设置头信息：setRequestHeader(header,value):</span>
-<span class="hljs-comment">                get:不需要设置此方法</span>
-<span class="hljs-comment">                post:需要设置：</span>
-<span class="hljs-comment">                    a.如果请求元素中包含了 文件上传：setRequestHeader("Content-Type","multipart/form-data");</span>
-<span class="hljs-comment">                    b.不包含了 文件上传：setRequestHeader("Content-Type","application/x-www-form-urlencoded")*/</span>
-        xmlHttpRequest.setRequestHeader(<span class="hljs-string">"Content-Type"</span>, <span class="hljs-string">"application/x-www-form-urlencoded"</span>);
-
-        <span class="hljs-comment">/*4.传入参数：xmlHttpRequest.send()</span>
-<span class="hljs-comment">                   get:	send(null)</span>
-<span class="hljs-comment">                  post:	send(参数值)*/</span>
-        <span class="hljs-comment">// xmlHttpRequest.send(null);</span>
-        xmlHttpRequest.send(<span class="hljs-string">"info="</span> + info);
-        <span class="hljs-comment">/*注：什么是回调函数：例如有 a()，b()，c()三个方法，b()是a()的回调函数，如果b()执行完则应该执行a()，而不是c()*/</span>
-        <span class="hljs-comment">/*5.注册回调函数(获取服务器响应数据)*/</span>
-        xmlHttpRequest.onreadystatechange = callBack;
-    &#125;
-
-    <span class="hljs-function">function <span class="hljs-title">callBack</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">if</span> (xmlHttpRequest.readyState == <span class="hljs-number">4</span> &amp;&amp; xmlHttpRequest.status == <span class="hljs-number">200</span>) &#123;
-            <span class="hljs-comment">/*responseText：响应格式为String</span>
-<span class="hljs-comment">               responseXML：相应格式为XML*/</span>
-            <span class="hljs-comment">/*获取后端响应的信息(放到div中)*/</span>
-            <span class="hljs-keyword">var</span> data = xmlHttpRequest.responseText;
-            document.getElementById(<span class="hljs-string">"div"</span>).innerHTML = data;
-        &#125;
-    &#125;
-
-    <span class="hljs-comment">/*笔记：xmlHttpRequest.readyState ：请求状态 只有4为完全成功</span>
-<span class="hljs-comment">     　　0：请求未初始化(还没有调用 open())</span>
-<span class="hljs-comment">     　　1：请求已经建立，但是还没有发送（还没有调用 send()）</span>
-<span class="hljs-comment">     　　2：请求已发送，正在处理中（通常现在可以从响应中获取内容头）。</span>
-<span class="hljs-comment">     　　3：请求在处理中；通常响应中已有部分数据可用了，但是服务器还没有完成响应的生成。</span>
-<span class="hljs-comment">     　　4：响应已完成；您可以获取并使用服务器的响应了。</span>
-<span class="hljs-comment">        xmlHttpRequest.status：响应状态(相当于于http响应状态码，太多则不过多说明) 只有200为完全成功*/</span>
-&lt;/script&gt;
-&lt;/html&gt;</code></pre>
-<h2 id="JQ-jquery-方式使用Ajax："><a href="#JQ-jquery-方式使用Ajax：" class="headerlink" title="JQ(jquery)方式使用Ajax："></a>JQ(jquery)方式使用Ajax：</h2><blockquote>
-<p><font size=3><strong>看了上面JS的方式编写Ajax，写起来的确是有些繁琐</strong><br><font size=3><strong>接下来使用jquery方式编写4种类似的Ajax，相比JS方式简便很多</strong><br><font size=3><strong>$.ajax()方法中属性详解请参考：</strong> <a href="https://www.cnblogs.com/tylerdonet/p/3520862.html" target="_blank" rel="noopener">https://www.cnblogs.com/tylerdonet/p/3520862.html</a></p>
+<p><img src="https://img-blog.csdnimg.cn/20200527222712765.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><font color=red><strong>3. 点击开启之后会验证当前QQ账户的身份，会提示要用密保手机发送个短信，发了之后就开启了<br>注：这个开启POP3/SMTP服务服务授权码要提前保存下来或者截个图(后面会用到)，如果没保存的话可能就要再验证一次身份，会再要求用密保手机发送验证短信，所以不找那个麻烦哈</strong></font><br><img src="https://img-blog.csdnimg.cn/20200527223215306.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
 </blockquote>
-<pre><code class="hljs java">&lt;%@ page contentType=<span class="hljs-string">"text/html;charset=UTF-8"</span> language=<span class="hljs-string">"java"</span> %&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Jquery -Ajax&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;center&gt;
-    &lt;%--JQ方式的ajax--%&gt;
-    &lt;div id="div"&gt;ajax：&lt;/div&gt;
-    &lt;br/&gt;
-    输入：&lt;input type=<span class="hljs-string">"text"</span> id=<span class="hljs-string">"info"</span>&gt;
-    &lt;input type=<span class="hljs-string">"button"</span> value=<span class="hljs-string">"提交"</span> onclick=<span class="hljs-string">"ajax()"</span>&gt;
+<h2 id="2-配置SpringBoot项目项目中配置"><a href="#2-配置SpringBoot项目项目中配置" class="headerlink" title="2. 配置SpringBoot项目项目中配置"></a>2. 配置SpringBoot项目项目中配置</h2><blockquote>
+<p><font color=red><strong>1. 在Maven的pom.xml文件中导入依赖</strong></font></p>
+</blockquote>
+<pre><code class="hljs java">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-mail&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+<blockquote>
+<p><font color=red><strong>2. 在application.properties文件中进行配置，下面有两个修改的地方：username=邮箱账号(就是之前配置测试邮箱的账号)，password=授权码</strong></font><br><font color=red size=3><strong>注意两点：1邮箱账号是之前配置测试邮箱的账号<a href="mailto:xxxxx@qq.com">xxxxx@qq.com</a>，</br> 2password是前面开启POP3/SMTP服务保存的授权码(不是你的邮箱密码哈，记住了)</strong></font></p>
+</blockquote>
+<pre><code class="hljs java">spring.mail.username=<span class="hljs-number">1</span>邮箱账号
+spring.mail.password=<span class="hljs-number">2</span>授权码
+spring.mail.host=smtp.qq.com
+#开启加密验证
+spring.mail.properties.mail.smtp.ssl.enable=<span class="hljs-keyword">true</span></code></pre>
+<blockquote>
+<p><font color=red><strong>3. 编写测试代码(下面介绍两种发送邮件的方式)</strong></font><br><font color=red><strong>第一种方式(只发送一些简单的文字信息)：</strong></font></p>
+</blockquote>
+<pre><code class="hljs java">
+<span class="hljs-meta">@Autowired</span>
+   JavaMailSenderImpl mailSender;
 
-&lt;/center&gt;
-&lt;/body&gt;
-&lt;script type="text/javascript" src="js/jquery-3.1.1.min.js"&gt;&lt;/script&gt;
-&lt;script type=<span class="hljs-string">"text/javascript"</span>&gt;
-    <span class="hljs-function">function <span class="hljs-title">ajax</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-comment">//var info = document.getElementById("info").value;</span>
-        <span class="hljs-keyword">var</span> info = $(<span class="hljs-string">"#info"</span>).val();
-
-        $.ajax(&#123;
-            <span class="hljs-comment">/* url：请求地址(可以带参数：url:    "ajax/ajaxDemo?info="+info,)*/</span>
-            url:    <span class="hljs-string">"ajax/ajaxDemo"</span>,
-            <span class="hljs-comment">/*async：默认设置为true，代表为异步请求   false则为同步请求*/</span>
-            async:  <span class="hljs-keyword">true</span>,
-            <span class="hljs-comment">/*type：请求方式*/</span>
-            type:   <span class="hljs-string">"get"</span>,
-            <span class="hljs-comment">/*data：请求参数(和js的send方法区别：get和post都可以直接填入  请求参数   名称+值*/</span>
-            data:   <span class="hljs-string">"info="</span> + info,
-            <span class="hljs-comment">/*dataType：服务器响应类型(例如text(纯文本)、json(json数据)、xml(xml文档))*/</span>
-            dataType:   <span class="hljs-string">"text"</span>,
-            <span class="hljs-comment">/*success：请求成功后调用的回调函数(由服务器返回，并根据dataType参数进行处理后的数据)*/</span>
-            success: function (data) &#123;
-                $(<span class="hljs-string">"#div"</span>).html(data);
-            &#125;,
-            <span class="hljs-comment">/*error：请求失败时被调用的函数*/</span>
-            error: function () &#123;
-                $(<span class="hljs-string">"#div"</span>).html(<span class="hljs-string">"服务器响应失败!"</span>);
-            &#125;
-        &#125;);
-
-
-<span class="hljs-comment">/*--------------------------------------------------------------------------------------------------------*/</span>
-        <span class="hljs-comment">/*$.get()不写参数名，但必须按照参数的顺序进行配置*/</span>
-        $.get(
-            <span class="hljs-comment">/*请求地址*/</span>
-             <span class="hljs-string">"ajax/ajaxDemo"</span>,
-            <span class="hljs-comment">/*请求参数   名称+值*/</span>
-            <span class="hljs-string">"info="</span> + info,
-            <span class="hljs-comment">/*回调函数*/</span>
-            function (data)&#123;
-                $(<span class="hljs-string">"#div"</span>).html(data);
-            &#125;,
-            <span class="hljs-comment">/*服务器响应类型*/</span>
-        <span class="hljs-string">"text"</span>
-        );
+   <span class="hljs-meta">@Test</span>
+   <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">contextLoads</span><span class="hljs-params">()</span> </span>&#123;
+       <span class="hljs-comment">/*一封简单的邮件*/</span>
+       SimpleMailMessage mailMessage = <span class="hljs-keyword">new</span> SimpleMailMessage();
+       <span class="hljs-comment">/*邮件标题*/</span>
+       mailMessage.setSubject(<span class="hljs-string">"邮件验证码"</span>);
+       <span class="hljs-comment">/*邮件内容(随机生成验证码)*/</span>
+       String code = UUID.randomUUID().toString().substring(<span class="hljs-number">0</span>,<span class="hljs-number">4</span>);
+       mailMessage.setText(code);
+       <span class="hljs-comment">/*发送人(必须和配置文件中的username相同)*/</span>
+       mailMessage.setFrom(<span class="hljs-string">"授权邮箱xxxx@qq.com"</span>);
+       <span class="hljs-comment">/*收件人*/</span>
+       mailMessage.setTo(<span class="hljs-string">"收件邮箱xxxx@qq.com"</span>);
+       <span class="hljs-comment">/*发送*/</span>
+       mailSender.send(mailMessage);
+   &#125;</code></pre>
+<blockquote>
+<p><font color=red><strong>话不多说，上效果图：</strong></font></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200527230309867.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200527230335688.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><font color=red><strong>第二种(可以发送附件比如图片、还可以改变文字样式)：</strong></font></p>
+</blockquote>
+<pre><code class="hljs java">
+<span class="hljs-meta">@Autowired</span>
+   JavaMailSenderImpl mailSender;
 
 
-<span class="hljs-comment">/*--------------------------------------------------------------------------------------------------------*/</span>
-        <span class="hljs-comment">/*$.post()不写参数名，但必须按照参数的顺序进行配置*/</span>
-        $.post(
-            <span class="hljs-comment">/*请求地址*/</span>
-            <span class="hljs-string">"ajax/ajaxDemo"</span>,
-           <span class="hljs-comment">/*请求参数   名称+值*/</span>
-            <span class="hljs-string">"info="</span> + info,
-            <span class="hljs-comment">/*回调函数*/</span>
-            function (data)&#123;
-                $(<span class="hljs-string">"#div"</span>).html(data);
-                <span class="hljs-keyword">if</span>(data == <span class="hljs-keyword">null</span> || data == <span class="hljs-string">""</span>)&#123;
-                    alert(<span class="hljs-string">"服务器响应为null"</span>);
-                &#125;
-            &#125;,
-            <span class="hljs-comment">/*服务器响应类型*/</span>
-            <span class="hljs-string">"text"</span>
-        );
-
-
-<span class="hljs-comment">/*--------------------------------------------------------------------------------------------------------*/</span>
-        <span class="hljs-comment">/*load:将服务端的返回值  直接加载到$(xxx)所选择的元素中 例如案例的div*/</span>
-        $(<span class="hljs-string">"#div"</span>).load(
-            <span class="hljs-comment">/*请求地址*/</span>
-            <span class="hljs-string">"ajax/ajaxDemo"</span>,
-            <span class="hljs-comment">/*请求参数   名称+值*/</span>
-            <span class="hljs-string">"info="</span>+info
-        );
-    &#125;
-&lt;/script&gt;
-&lt;/html&gt;</code></pre>
-
-<p><strong>本篇文章还缺少一个重要的知识点、也是和Ajax挂钩的，那就是JSON数据格式，本人也正在学习将JSON类型数据请求到后台再响应JSON数据格式给前台。到时候我会在发一篇文章介绍JSON或者到时候会修改本篇文章将JSON知识点补上。</strong></p>
+<span class="hljs-meta">@Test</span>
+   <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">contextLoads2</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;
+       <span class="hljs-comment">/*一封复杂的邮件*/</span>
+       MimeMessage mimeMessage = mailSender.createMimeMessage();
+       <span class="hljs-comment">/*组装*/</span>
+       MimeMessageHelper helper = <span class="hljs-keyword">new</span> MimeMessageHelper(mimeMessage,<span class="hljs-keyword">true</span>);
+       <span class="hljs-comment">/*邮件标题*/</span>
+       helper.setSubject(<span class="hljs-string">"邮件测试"</span>);
+       <span class="hljs-comment">/*邮件内容(随便添加个CSS样式，比如文字颜色红色),注：为true才能解析HTML元素,如果为false会解析为字符串*/</span>
+       helper.setText(<span class="hljs-string">"&lt;p style='color:red'&gt;123&lt;/p&gt;"</span>,<span class="hljs-keyword">true</span>);
+       <span class="hljs-comment">/*附件(并且发送一张偶像的帅照过去(绝对地址))*/</span>
+       helper.addAttachment(<span class="hljs-string">"刘德华.jpg"</span>,<span class="hljs-keyword">new</span> File(<span class="hljs-string">"D:\\图片\\刘德华.jpg"</span>));
+       <span class="hljs-comment">/*发送人(必须和配置文件中的username相同)*/</span>
+       helper.setFrom(<span class="hljs-string">"授权邮箱xxxx@qq.com"</span>);
+       <span class="hljs-comment">/*收件人*/</span>
+       helper.setTo(<span class="hljs-string">"收件邮箱xxxx@qq.com"</span>);
+       <span class="hljs-comment">/*发送*/</span>
+       mailSender.send(mimeMessage);
+   &#125;</code></pre>
+<blockquote>
+<p><font color=red><strong>效果图：</strong></font><br><img src="https://img-blog.csdnimg.cn/2020052723130932.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200527231521454.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTM3Nzc3MA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+</blockquote>
+<p><strong>可以给用户发验证码，或者按一定的业务需求发送附件，比如图片这些，也能让一些重要信息不同的CSS样式显示</strong></p>
 
             </div>
             <hr>
@@ -419,7 +339,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Ajax/">Ajax</a>
+                      <a class="hover-with-bg" href="/tags/SpringBoot/">SpringBoot</a>
                     
                   </div>
                 
@@ -432,9 +352,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/20/Java%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%8F%91%E9%80%81%E6%89%8B%E6%9C%BA%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81/">
+                      <a href="/2020/06/23/swagger%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Java如何实现发送手机短信验证码</span>
+                        <span class="hidden-mobile">swagger介绍及使用</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -442,8 +362,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/04/07/SpringMVC%E6%A1%86%E6%9E%B6%E7%BC%96%E5%86%99%E9%AA%8C%E8%AF%81%E7%A0%81./">
-                        <span class="hidden-mobile">SpringMVC框架编写后端验证码</span>
+                      <a href="/2020/05/20/Java%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%8F%91%E9%80%81%E6%89%8B%E6%9C%BA%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81/">
+                        <span class="hidden-mobile">Java如何实现发送手机短信验证码</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -609,7 +529,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Ajax的基本使用&nbsp;",
+        "SpringBoot实现发送邮件(验证码,文本,附件)&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 100,
