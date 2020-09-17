@@ -475,6 +475,22 @@
 
 
 
+
+<center>
+<p id="hitokoto">:D 获取中...</p>
+<script>
+  fetch('https://v1.hitokoto.cn')
+    .then(response => response.json())
+    .then(data => {
+      const hitokoto = document.getElementById('hitokoto')
+      hitokoto.innerText = data.hitokoto
+      })
+      .catch(console.error)
+</script>
+</center>
+
+
+
 <center>
 <div>
   <span id="timeDate">载入天数...</span>
@@ -508,7 +524,6 @@
   </script>
 </div>
 </center>
-
 
 </body>
 </html>

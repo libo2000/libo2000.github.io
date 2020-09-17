@@ -194,7 +194,7 @@
     <div class="category row">
       <a
         class="category-item collapsed list-group-item category-item-action col-10 col-md-11"
-        id="heading-ckf6bww850003l4eq289z121d" role="tab" data-toggle="collapse" href="#collapse-ckf6bww850003l4eq289z121d"
+        id="heading-ckf6fzbag0003b4eqa92j9qn6" role="tab" data-toggle="collapse" href="#collapse-ckf6fzbag0003b4eqa92j9qn6"
         aria-expanded="false"
       >
         后端
@@ -207,8 +207,8 @@
       <div class="category-collapse">
         
           
-  <div id="collapse-ckf6bww850003l4eq289z121d" class="collapse in" role="tabpanel"
-       aria-labelledby="heading-ckf6bww850003l4eq289z121d">
+  <div id="collapse-ckf6fzbag0003b4eqa92j9qn6" class="collapse in" role="tabpanel"
+       aria-labelledby="heading-ckf6fzbag0003b4eqa92j9qn6">
     
     
     
@@ -299,7 +299,7 @@
     <div class="category row">
       <a
         class="category-item collapsed list-group-item category-item-action col-10 col-md-11"
-        id="heading-ckf6bww9a001al4eq16yh36as" role="tab" data-toggle="collapse" href="#collapse-ckf6bww9a001al4eq16yh36as"
+        id="heading-ckf6fzbav000sb4eq94509ibn" role="tab" data-toggle="collapse" href="#collapse-ckf6fzbav000sb4eq94509ibn"
         aria-expanded="false"
       >
         前端
@@ -312,8 +312,8 @@
       <div class="category-collapse">
         
           
-  <div id="collapse-ckf6bww9a001al4eq16yh36as" class="collapse in" role="tabpanel"
-       aria-labelledby="heading-ckf6bww9a001al4eq16yh36as">
+  <div id="collapse-ckf6fzbav000sb4eq94509ibn" class="collapse in" role="tabpanel"
+       aria-labelledby="heading-ckf6fzbav000sb4eq94509ibn">
     
     
     
@@ -547,6 +547,22 @@
 
 
 
+
+<center>
+<p id="hitokoto">:D 获取中...</p>
+<script>
+  fetch('https://v1.hitokoto.cn')
+    .then(response => response.json())
+    .then(data => {
+      const hitokoto = document.getElementById('hitokoto')
+      hitokoto.innerText = data.hitokoto
+      })
+      .catch(console.error)
+</script>
+</center>
+
+
+
 <center>
 <div>
   <span id="timeDate">载入天数...</span>
@@ -580,7 +596,6 @@
   </script>
 </div>
 </center>
-
 
 </body>
 </html>
