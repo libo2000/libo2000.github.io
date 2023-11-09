@@ -1,0 +1,749 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="阿波">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Swagger-概述 Swagger 是一款RESTFUL接口的文档在线自动生成+功能测试功能软件。Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。总体目标是使客户端和文件系统作为服务器以同样的速度来更新。文件的方法，参数和模型紧密集成到服务器端的代码，允许API来始终保持同步。Swagger让部署管理和使用功能强大的API从未如此简单。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="swagger介绍及使用">
+<meta property="og:url" content="http://example.com/2020/06/23/Swagger%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="阿波">
+<meta property="og:description" content="Swagger-概述 Swagger 是一款RESTFUL接口的文档在线自动生成+功能测试功能软件。Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。总体目标是使客户端和文件系统作为服务器以同样的速度来更新。文件的方法，参数和模型紧密集成到服务器端的代码，允许API来始终保持同步。Swagger让部署管理和使用功能强大的API从未如此简单。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/articleCover/swagger.jpeg">
+<meta property="article:published_time" content="2020-06-23T08:04:08.000Z">
+<meta property="article:modified_time" content="2023-11-09T14:09:25.906Z">
+<meta property="article:author" content="阿波">
+<meta property="article:tag" content="swagger">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/articleCover/swagger.jpeg">
+  
+  
+  
+  <title>swagger介绍及使用 - 阿波</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_2069193_s1smwgsdgtr.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>阿波</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/background/wallhaven-m3qje8.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="swagger介绍及使用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        阿波
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-06-23 16:04" pubdate>
+          2020年6月23日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          53 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">swagger介绍及使用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Swagger-概述"><a href="#Swagger-概述" class="headerlink" title="Swagger-概述"></a>Swagger-概述</h1><blockquote>
+<p><strong>Swagger 是一款RESTFUL接口的文档在线自动生成+功能测试功能软件。</strong><br><strong>Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。总体目标是使客户端和文件系统作为服务器以同样的速度来更新。文件的方法，参数和模型紧密集成到服务器端的代码，允许API来始终保持同步。Swagger让部署管理和使用功能强大的API从未如此简单。</strong></p>
+</blockquote>
+<p><strong>本篇将使用SpringBoot进行搭建Swagger</strong></p>
+<h2 id="1-maven导入Swagger包"><a href="#1-maven导入Swagger包" class="headerlink" title="1. maven导入Swagger包"></a>1. maven导入Swagger包</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;dependencies&gt;<br>        &lt;dependency&gt;<br>            &lt;groupId&gt;io.springfox&lt;/groupId&gt;<br>            &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;<br>            &lt;version&gt;<span class="hljs-number">2.9</span><span class="hljs-number">.2</span>&lt;/version&gt;<br>        &lt;/dependency&gt;<br><br>        &lt;dependency&gt;<br>            &lt;groupId&gt;io.springfox&lt;/groupId&gt;<br>            &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;<br>            &lt;version&gt;<span class="hljs-number">2.9</span><span class="hljs-number">.2</span>&lt;/version&gt;<br>        &lt;/dependency&gt;<br>&lt;/dependencies&gt;<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="2-配置开启swagger2"><a href="#2-配置开启swagger2" class="headerlink" title="2. 配置开启swagger2"></a>2. 配置开启swagger2</h2><blockquote>
+<p><strong>新建一个配置类，然后开启使用@EnableSwagger2注解就可以了</strong><br><strong>注：在后续的操作中都是在swagger配置类中进行</strong></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span>      <span class="hljs-comment">/*配置类*/</span><br><span class="hljs-meta">@EnableSwagger2</span>     <span class="hljs-comment">/*开启swagger自动配置*/</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">swaggerConfig</span> &#123;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="3-测试swagger"><a href="#3-测试swagger" class="headerlink" title="3. 测试swagger"></a>3. 测试swagger</h2><blockquote>
+<p><strong>在此之前可以编写一个测试的Controller，效果更佳显著</strong></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">swaggerController</span> &#123;<br><br>    <span class="hljs-meta">@RequestMapping(path = &quot;/hello&quot;)</span><br>    <span class="hljs-meta">@ResponseBody</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">hello</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hello swagger&quot;</span>;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>启动项目进行访问swagger：<a target="_blank" rel="noopener" href="http://localhost:8080/swagger-ui.html">http://localhost:8080/swagger-ui.html</a></strong></p>
+</blockquote>
+<p>能够看到此页面代表swagger基础配置就完成了，swagger页面分为4个内容</p>
+<ol>
+<li>swagger信息：<em>相当于作者的个人信息(可自行修改)</em></li>
+<li>接口信息：在controller中编写的接口全在里面(SpringBoot默认有个接口就是error)</li>
+<li>实体类信息：对应数据库表中的数据字段</li>
+<li>开发者组：是一个下拉框，可以创建不同的开发者信息(比如某些业务的接口是01开发的，某些接口是02开发的)</li>
+</ol>
+<p><img src="/article_img/swagger%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/1.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="4-配置swagger信息"><a href="#4-配置swagger信息" class="headerlink" title="4. 配置swagger信息"></a>4. 配置swagger信息</h2><p><strong>swagger信息：开发者名称、个人网站地址、邮箱地址、描述信息…(可以根据不同的Docket获取不同的ApiInfo中Contact的name属性来区别接口的开发者)</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span>       <span class="hljs-comment">/*配置类*/</span><br><span class="hljs-meta">@EnableSwagger2</span>     <span class="hljs-comment">/*开启swagger自动配置*/</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">swaggerConfig</span> &#123;<br><br>    <span class="hljs-comment">/*配置swagger的Docket实例*/</span><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> Docket <span class="hljs-title function_">getDocket</span><span class="hljs-params">( )</span>&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Docket</span>(DocumentationType.SWAGGER_2).apiInfo(apiInfo());<br>    &#125;<br><br>    <span class="hljs-comment">/*配置swagger 信息==ApiInfo*/</span><br>    <span class="hljs-keyword">private</span> ApiInfo <span class="hljs-title function_">apiInfo</span><span class="hljs-params">( )</span> &#123;<br>        <span class="hljs-comment">/*作者信息*/</span><br>        <span class="hljs-type">Contact</span> <span class="hljs-variable">contact</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Contact</span>(<span class="hljs-string">&quot;阿波&quot;</span>,<span class="hljs-string">&quot;https://libo2000.github.io/&quot;</span>,<span class="hljs-string">&quot;973747397@qq.com&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ApiInfo</span>(<br>                <span class="hljs-string">&quot;阿波的SwaggerAPI文档&quot;</span>,<br>                <span class="hljs-string">&quot;记忆之中没有辛苦,只有遗憾&quot;</span>,<br>                <span class="hljs-string">&quot;v1.0&quot;</span>,<br>                <span class="hljs-string">&quot;https://libo2000.github.io/&quot;</span>,<br>                contact,<br>                <span class="hljs-string">&quot;Apache2.0&quot;</span>,<br>                <span class="hljs-string">&quot;https://www.apache.org/licenses/LICENSE-2.0&quot;</span>,<br>                <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;()<br>        );<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>修改完之后再次访问：<a target="_blank" rel="noopener" href="http://localhost:8080/swagger-ui.html">http://localhost:8080/swagger-ui.html</a></strong> <strong>明显的看到swagger信息与之前发生了变化</strong><br><img src="/article_img/swagger%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/2.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="5-配置swagger扫描接口"><a href="#5-配置swagger扫描接口" class="headerlink" title="5. 配置swagger扫描接口"></a>5. 配置swagger扫描接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-comment">/*配置swagger的Docket实例*/</span><br><span class="hljs-meta">@Bean</span><br><span class="hljs-keyword">public</span> Docket <span class="hljs-title function_">getDocket</span><span class="hljs-params">(Environment environment)</span>&#123;<br><br>     <span class="hljs-comment">/*设置需要显示的swagger环境*/</span><br>     <span class="hljs-type">Profiles</span> <span class="hljs-variable">profiles</span> <span class="hljs-operator">=</span>Profiles.of(<span class="hljs-string">&quot;dev&quot;</span>,<span class="hljs-string">&quot;test&quot;</span>);<br>      <span class="hljs-comment">/**/</span><br><span class="hljs-comment">     boolean flag = environment.acceptsProfiles(profiles);</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">   return new Docket(DocumentationType.SWAGGER_2)</span><br><span class="hljs-comment">        .apiInfo(apiInfo())</span><br><span class="hljs-comment">        .groupName(&quot;阿波&quot;) //swagger信息(ApiInfo)中的name成员变量(不同的开发者信息就需要设置多个ApiInfo在不同的Docket实例中获取)</span><br><span class="hljs-comment">        /*.enable(false)：是否启用swagger  如果为false,浏览器中不能访问(默认为true)*/</span><br>        .enable(flag)<br>        .select()<br>        <span class="hljs-comment">/*RequestHandlerSelectors：配置扫描接口的方式</span><br><span class="hljs-comment">               * basePackage：指定扫描的包</span><br><span class="hljs-comment">               * any：扫描全部</span><br><span class="hljs-comment">               * none：不扫描</span><br><span class="hljs-comment">               * withClassAnnotation：扫描类上的注解，参数为一个注解的反射对象</span><br><span class="hljs-comment">               * withMethodAnnotation：扫描方法上的注解*/</span><br>        .apis(RequestHandlerSelectors.basePackage(<span class="hljs-string">&quot;com.swagger.controller&quot;</span>))<br>        <span class="hljs-comment">/*paths()：过滤路径*/</span><br><span class="hljs-comment">//      .paths(PathSelectors.ant(&quot;/action&quot;))</span><br>        .build();<br> &#125;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>这里有个问题：这么才能控制swagger的显示问题，Docket实例中enable()默认为true就是说可以访问(false则不能访问)，但是我想让swagger在测试阶段才可以访问，其他时候不能访问，如何实现？</strong></p>
+</blockquote>
+<p><strong>方便我们测试所以创建多个SpringBoot的配置文件properties，在主配置文件中配置spring.profiles.active&#x3D;具体配置环境(代表当前项目使用的是那一个项目环境)</strong></p>
+<ol>
+<li>设置需要显示的swagger环境(例如：只有在dev或者test环境下才显示)：Profiles profiles &#x3D;Profiles.of(“dev”,”test”);</li>
+<li>判断当前环境是否为设置的环境(返回boolean值true或false)：boolean flag &#x3D; environment.acceptsProfiles(profiles);</li>
+<li>将flag变量传到Docket实例的.enable(flag)属性中：enable(flag)</li>
+</ol>
+<p> <strong>至此就可以通过获取当前环境而控制swagger的访问</strong></p>
+<p><img src="/article_img/swagger%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/3.png" srcset="/img/loading.gif" lazyload><br><img src="/article_img/swagger%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/4.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="6-swagger分组与接口注释"><a href="#6-swagger分组与接口注释" class="headerlink" title="6. swagger分组与接口注释"></a>6. swagger分组与接口注释</h2><blockquote>
+<p><strong>swagger分组：</strong></p>
+</blockquote>
+<p><strong>在swagger配置时可分为不同的多个Docket对象，相当于每一个Docket对象就是一个项目中的开发者。可以设置多个ApiInfo信息，再通过Docket的groupName()参数为ApiInfo中Contact对象的name成员变量，在上面我们知道了Docket中可以设置扫描接口，那我们在通过扫描不同的接口、配置不同的ApiInfo信息，那么就可以进行swagger的分组(就可以在swagger中区别不同开发者写的接口及代码)</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span>           <span class="hljs-comment">/*配置类*/</span><br><span class="hljs-meta">@EnableSwagger2</span>     <span class="hljs-comment">/*开启swagger自动配置*/</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">swaggerConfig</span> &#123;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> Docket <span class="hljs-title function_">getDocket2</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Docket</span>(DocumentationType.SWAGGER_2).groupName(<span class="hljs-string">&quot;阿波2&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> Docket <span class="hljs-title function_">getDocket3</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Docket</span>(DocumentationType.SWAGGER_2).groupName(<span class="hljs-string">&quot;阿波3&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-comment">/*配置swagger的Docket实例*/</span><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> Docket <span class="hljs-title function_">getDocket</span><span class="hljs-params">(Environment environment)</span>&#123;<br><br>        <span class="hljs-comment">/*设置需要显示的swagger环境*/</span><br>        <span class="hljs-type">Profiles</span> <span class="hljs-variable">profiles</span> <span class="hljs-operator">=</span>Profiles.of(<span class="hljs-string">&quot;dev&quot;</span>,<span class="hljs-string">&quot;test&quot;</span>);<br>        <span class="hljs-comment">/**/</span><br><span class="hljs-comment">        boolean flag = environment.acceptsProfiles(profiles);</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">        return new Docket(DocumentationType.SWAGGER_2)</span><br><span class="hljs-comment">                .apiInfo(apiInfo())</span><br><span class="hljs-comment">                .groupName(&quot;阿波&quot;) //swagger信息(ApiInfo)中的name成员变量(不同的开发者信息就需要设置多个ApiInfo在不同的Docket实例中获取)</span><br><span class="hljs-comment">                /*.enable(false)：是否启用swagger  如果为false,浏览器中不能访问(默认为true)*/</span><br>                .enable(flag)<br>                .select()<br>                <span class="hljs-comment">/*RequestHandlerSelectors：配置扫描接口的方式</span><br><span class="hljs-comment">                        * basePackage：指定扫描的包</span><br><span class="hljs-comment">                        * any：扫描全部</span><br><span class="hljs-comment">                        * none：不扫描</span><br><span class="hljs-comment">                        * withClassAnnotation：扫描类上的注解，参数为一个注解的反射对象</span><br><span class="hljs-comment">                        * withMethodAnnotation：扫描方法上的注解*/</span><br>                .apis(RequestHandlerSelectors.basePackage(<span class="hljs-string">&quot;com.swagger.controller&quot;</span>))<br>                <span class="hljs-comment">/*paths()：过滤路径*/</span><br><span class="hljs-comment">//                .paths(PathSelectors.ant(&quot;/action&quot;))</span><br>                .build();<br>    &#125;<br><br><br>    <span class="hljs-comment">/*配置swagger 信息==ApiInfo*/</span><br>    <span class="hljs-keyword">private</span> ApiInfo <span class="hljs-title function_">apiInfo</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">/*作者信息*/</span><br>        <span class="hljs-type">Contact</span> <span class="hljs-variable">contact</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Contact</span>(<span class="hljs-string">&quot;阿波&quot;</span>,<span class="hljs-string">&quot;https://libo2000.github.io/&quot;</span>,<span class="hljs-string">&quot;973747397@qq.com&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ApiInfo</span>(<br>                <span class="hljs-string">&quot;阿波的SwaggerAPI文档&quot;</span>,<br>                <span class="hljs-string">&quot;记忆之中没有辛苦,只有遗憾&quot;</span>,<br>                <span class="hljs-string">&quot;v1.0&quot;</span>,<br>                <span class="hljs-string">&quot;https://libo2000.github.io/&quot;</span>,<br>                contact,<br>                <span class="hljs-string">&quot;Apache2.0&quot;</span>,<br>                <span class="hljs-string">&quot;https://www.apache.org/licenses/LICENSE-2.0&quot;</span>,<br>                <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;()<br>        );<br>    &#125;<br>    <br>&#125;<br></code></pre></td></tr></table></figure>
+<p><img src="/article_img/swagger%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/5.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p><strong>swagger常用注解</strong><br><strong>在swagger如何去描述实体类呢?(JavaBean)</strong></p>
+</blockquote>
+<p><strong>首先创建实体类，然后对实体类及成员变量通过注解进行描述：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@ApiModel(&quot;用户实体类&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &#123;<br><br>    <span class="hljs-meta">@ApiModelProperty(&quot;用户名&quot;)</span><br>    <span class="hljs-keyword">public</span> String username;<br>    <br>    <span class="hljs-meta">@ApiModelProperty(&quot;密码&quot;)</span><br>    <span class="hljs-keyword">public</span> String password;<br>    <br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<p><strong>然后在Controller中进行接口配置：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">swaggerController</span> &#123;<br><br>    <span class="hljs-meta">@GetMapping(path = &quot;/hello&quot;)</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">hello</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hello swagger&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/*在接口中,返回值中存在实体类,他就会被扫描到swagger中*/</span><br>    <span class="hljs-meta">@PostMapping(path = &quot;/user&quot;)</span><br>    <span class="hljs-keyword">public</span> User <span class="hljs-title function_">user</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>();<br>    &#125;<br>    <br> &#125;   <br></code></pre></td></tr></table></figure>
+
+<p><img src="/article_img/swagger%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/6.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>对接口的描述：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@ApiOperation(&quot;user控制类&quot;)</span><br><span class="hljs-meta">@GetMapping(path = &quot;/hello2&quot;)</span><br><span class="hljs-keyword">public</span> String <span class="hljs-title function_">hello2</span><span class="hljs-params">(<span class="hljs-meta">@ApiParam(&quot;用户名&quot;)</span> String username, <span class="hljs-meta">@ApiParam(&quot;密码&quot;)</span>String password)</span>&#123;<br>    <span class="hljs-keyword">return</span> username+password;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/article_img/swagger%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/7.png" srcset="/img/loading.gif" lazyload></p>
+<p>Swagger常用注解<br>在Java类中添加Swagger的注解即可生成Swagger接口，常用Swagger注解如下：</p>
+<ol>
+<li>@Api：修饰整个类，描述Controller的作用 </li>
+<li>@ApiOperation：描述一个类的一个方法，或者说一个接口</li>
+<li>@ApiParam：单个参数描述 </li>
+<li>@ApiModel：用对象来接收参数</li>
+<li>@ApiModelProperty：用对象接收参数时，描述对象的一个字段 </li>
+<li>@ApiResponse：HTTP响应其中1个描述</li>
+<li>@ApiResponses：HTTP响应整体描述 </li>
+<li>@ApiIgnore：使用该注解忽略这个API </li>
+<li>@ApiError：发生错误返回的信息 </li>
+<li>@ApiImplicitParam：一个请求参数 </li>
+<li>@ApiImplicitParams：多个请求参数</li>
+</ol>
+<center>现在的我，未来的我，一起去啊，更远的地方！</center>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/swagger/" class="print-no-link">#swagger</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>swagger介绍及使用</div>
+      <div>http://example.com/2020/06/23/Swagger介绍及使用/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>阿波</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年6月23日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2023年11月9日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/06/23/%E4%BB%80%E4%B9%88%E6%98%AFRestFul%E9%A3%8E%E6%A0%BC%EF%BC%9F/" title="什么是RestFul风格？">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">什么是RestFul风格？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/27/SpringBoot%E5%AE%9E%E7%8E%B0%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/" title="SpringBoot实现发送邮件(验证码,文本,附件)">
+                        <span class="hidden-mobile">SpringBoot实现发送邮件(验证码,文本,附件)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>阿波</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

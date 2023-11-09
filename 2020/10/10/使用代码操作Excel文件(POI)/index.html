@@ -1,0 +1,730 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="阿波">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本篇文章将讲述使用POI如何去对Excel文件进行读写  apache的POI文档：https:&#x2F;&#x2F;poi.apache.org  1.Maven导入poi包123456789101112131415161718192021222324252627282930&lt;!--导入依赖--&gt;    &lt;dependencies&gt;        &lt;!--xls(03版本)--&amp;gt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用代码操作Excel文件(POI)">
+<meta property="og:url" content="http://example.com/2020/10/10/%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9CExcel%E6%96%87%E4%BB%B6(POI)/index.html">
+<meta property="og:site_name" content="阿波">
+<meta property="og:description" content="本篇文章将讲述使用POI如何去对Excel文件进行读写  apache的POI文档：https:&#x2F;&#x2F;poi.apache.org  1.Maven导入poi包123456789101112131415161718192021222324252627282930&lt;!--导入依赖--&gt;    &lt;dependencies&gt;        &lt;!--xls(03版本)--&amp;gt">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/articleCover/poi.jpg">
+<meta property="article:published_time" content="2020-10-10T10:20:20.000Z">
+<meta property="article:modified_time" content="2023-11-09T14:10:56.099Z">
+<meta property="article:author" content="阿波">
+<meta property="article:tag" content="JavaSE">
+<meta property="article:tag" content="Excel">
+<meta property="article:tag" content="POI">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/articleCover/poi.jpg">
+  
+  
+  
+  <title>使用代码操作Excel文件(POI) - 阿波</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_2069193_s1smwgsdgtr.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>阿波</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/background/wallhaven-m3qje8.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="使用代码操作Excel文件(POI)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        阿波
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-10-10 18:20" pubdate>
+          2020年10月10日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          75 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">使用代码操作Excel文件(POI)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="本篇文章将讲述使用POI如何去对Excel文件进行读写"><a href="#本篇文章将讲述使用POI如何去对Excel文件进行读写" class="headerlink" title="本篇文章将讲述使用POI如何去对Excel文件进行读写"></a>本篇文章将讲述使用POI如何去对Excel文件进行读写</h1><p>  <a target="_blank" rel="noopener" href="https://poi.apache.org/">apache的POI文档：https://poi.apache.org </a></p>
+<h2 id="1-Maven导入poi包"><a href="#1-Maven导入poi包" class="headerlink" title="1.Maven导入poi包"></a>1.Maven导入poi包</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;!--导入依赖--&gt;<br>    &lt;dependencies&gt;<br>        &lt;!--xls(<span class="hljs-number">03</span>版本)--&gt;<br>        &lt;dependency&gt;<br>            &lt;groupId&gt;org.apache.poi&lt;/groupId&gt;<br>            &lt;artifactId&gt;poi&lt;/artifactId&gt;<br>            &lt;version&gt;<span class="hljs-number">3.9</span>&lt;/version&gt;<br>        &lt;/dependency&gt;<br><br>        &lt;!--xlsx(<span class="hljs-number">07</span>版本)--&gt;<br>        &lt;dependency&gt;<br>            &lt;groupId&gt;org.apache.poi&lt;/groupId&gt;<br>            &lt;artifactId&gt;poi-ooxml&lt;/artifactId&gt;<br>            &lt;version&gt;<span class="hljs-number">3.9</span>&lt;/version&gt;<br>        &lt;/dependency&gt;<br><br>        &lt;!--日期格式化工具--&gt;<br>        &lt;dependency&gt;<br>            &lt;groupId&gt;joda-time&lt;/groupId&gt;<br>            &lt;artifactId&gt;joda-time&lt;/artifactId&gt;<br>            &lt;version&gt;<span class="hljs-number">2.10</span><span class="hljs-number">.1</span>&lt;/version&gt;<br>        &lt;/dependency&gt;<br><br>        &lt;!--junit测试--&gt;<br>        &lt;dependency&gt;<br>            &lt;groupId&gt;junit&lt;/groupId&gt;<br>            &lt;artifactId&gt;junit&lt;/artifactId&gt;<br>            &lt;version&gt;<span class="hljs-number">4.12</span>&lt;/version&gt;<br>        &lt;/dependency&gt;<br>    &lt;/dependencies&gt;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong><font color = #FF6666>这里解释下为什么有两个版本(03版，07版) ？</font></strong><br><strong><font color = #FF6666>1. 两者的文件后缀不同，03版本是.xls，07版本是.xlsx</font></strong><br><strong><font color = #FF6666>2. 03版的最多只能有65536行 (03版本如果写入数据超过65536行，则会出现异常)，而07版行数可以无限制 (代表07版可以存放的数据更多)</font></strong></p>
+</blockquote>
+<blockquote>
+<p><strong><font color = #FF6666>在开始代码之前，先认识下Excel表结构	直接看下图</font></strong></p>
+</blockquote>
+<p><img src="/article_img/%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9CExcel%E6%96%87%E4%BB%B6(POI)/1.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="2-POI进行基本的写入"><a href="#2-POI进行基本的写入" class="headerlink" title="2.POI进行基本的写入"></a>2.POI进行基本的写入</h2><blockquote>
+<p><strong><font color = #FF6666>注：03版本使用 HSSFWorkbook，07版本使用 XSSFWorkbook (07版本大量数据写入使用SXSSFWorkbook)<br>07版本的XSSFWorkbook 与 SXSSFWorkbook的区别 ？这个疑问下面会讲到。<br></font></strong></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.apache.poi.hssf.usermodel.HSSFWorkbook;<br><span class="hljs-keyword">import</span> org.apache.poi.ss.usermodel.Cell;<br><span class="hljs-keyword">import</span> org.apache.poi.ss.usermodel.Row;<br><span class="hljs-keyword">import</span> org.apache.poi.ss.usermodel.Sheet;<br><span class="hljs-keyword">import</span> org.apache.poi.ss.usermodel.Workbook;<br><span class="hljs-keyword">import</span> org.apache.poi.xssf.usermodel.XSSFWorkbook;<br><span class="hljs-keyword">import</span> org.junit.Test;<br><br><span class="hljs-keyword">import</span> java.io.FileOutputStream;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span>: libo</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span>: 2020/10/8  15:22</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@motto</span>: 即使再小的帆也能远航</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">test</span> &#123;<br><br>    <span class="hljs-comment">/*文件生成路径*/</span><br>    <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">PATH</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;D:\\IntelliJ IDEA 2019.1_File\\POIandEasyExcel\\poi\\&quot;</span>;<br><br>    <span class="hljs-comment">/*03版本Excel*/</span><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">poi03</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-comment">/*1.创建工作簿*/</span><br>        <span class="hljs-type">Workbook</span> <span class="hljs-variable">workbook</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HSSFWorkbook</span>();<br>        <span class="hljs-comment">/*2.创建工作表*/</span><br>        <span class="hljs-type">Sheet</span> <span class="hljs-variable">sheet</span> <span class="hljs-operator">=</span> workbook.createSheet(<span class="hljs-string">&quot;03版本&quot;</span>);<br>        <span class="hljs-comment">/*3.创建第一行(0就是第一行,以此类推 就像数组下标一样)*/</span><br>        <span class="hljs-type">Row</span> <span class="hljs-variable">row</span> <span class="hljs-operator">=</span> sheet.createRow(<span class="hljs-number">0</span>);<br>        <span class="hljs-comment">/*4.创建一列(单元格)(0就是第一列)*/</span><br>        <span class="hljs-type">Cell</span> <span class="hljs-variable">cell</span> <span class="hljs-operator">=</span> row.createCell(<span class="hljs-number">0</span>);<br>        cell.setCellValue(<span class="hljs-string">&quot;第一行第一列&quot;</span>);<br>        <span class="hljs-comment">/*4.创建一列(单元格)(1就是第二列)*/</span><br>        <span class="hljs-type">Cell</span> <span class="hljs-variable">cell2</span> <span class="hljs-operator">=</span> row.createCell(<span class="hljs-number">1</span>);<br>        cell2.setCellValue(<span class="hljs-string">&quot;第一行第二列&quot;</span>);<br>        <span class="hljs-comment">/*创建第二行(1就是第二行)*/</span><br>        <span class="hljs-type">Row</span> <span class="hljs-variable">row2</span> <span class="hljs-operator">=</span> sheet.createRow(<span class="hljs-number">1</span>);<br>        <span class="hljs-comment">/*创建(单元格)*/</span><br>        <span class="hljs-type">Cell</span> <span class="hljs-variable">cell21</span> <span class="hljs-operator">=</span> row2.createCell(<span class="hljs-number">0</span>);<br>        cell21.setCellValue(<span class="hljs-string">&quot;第二行第一列&quot;</span>);<br>        <span class="hljs-type">Cell</span> <span class="hljs-variable">cell22</span> <span class="hljs-operator">=</span> row2.createCell(<span class="hljs-number">1</span>);<br>        cell22.setCellValue(<span class="hljs-string">&quot;第二行第二列&quot;</span>);<br><br>        <span class="hljs-comment">/*5.创建输出流(IO流)  03版本文件后缀为：.xls*/</span><br>        <span class="hljs-type">FileOutputStream</span> <span class="hljs-variable">fileOutputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(PATH + <span class="hljs-string">&quot;03Excel.xls&quot;</span>);<br>        <span class="hljs-comment">/*6.生成文件*/</span><br>        workbook.write(fileOutputStream);<br>        <span class="hljs-comment">/*7.关闭流*/</span><br>        fileOutputStream.close();<br>    &#125;<br><br><br><br>    <span class="hljs-comment">/*07版本Excel*/</span><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">poi07</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-comment">/*1.创建工作簿*/</span><br>        <span class="hljs-type">Workbook</span> <span class="hljs-variable">workbook</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">XSSFWorkbook</span>();<br>        <span class="hljs-comment">/*2.创建工作表*/</span><br>        <span class="hljs-type">Sheet</span> <span class="hljs-variable">sheet</span> <span class="hljs-operator">=</span> workbook.createSheet(<span class="hljs-string">&quot;07版本&quot;</span>);<br>        <span class="hljs-comment">/*3.创建第一行*/</span><br>        <span class="hljs-type">Row</span> <span class="hljs-variable">row</span> <span class="hljs-operator">=</span> sheet.createRow(<span class="hljs-number">0</span>);<br>        <span class="hljs-comment">/*4.创建一列(单元格)*/</span><br>        <span class="hljs-type">Cell</span> <span class="hljs-variable">cell</span> <span class="hljs-operator">=</span> row.createCell(<span class="hljs-number">0</span>);<br>        cell.setCellValue(<span class="hljs-string">&quot;第一行第一列&quot;</span>);<br>        <span class="hljs-type">Cell</span> <span class="hljs-variable">cell2</span> <span class="hljs-operator">=</span> row.createCell(<span class="hljs-number">1</span>);<br>        cell2.setCellValue(<span class="hljs-string">&quot;第一行第二列&quot;</span>);<br>        <span class="hljs-comment">/*创建第二行*/</span><br>        <span class="hljs-type">Row</span> <span class="hljs-variable">row2</span> <span class="hljs-operator">=</span> sheet.createRow(<span class="hljs-number">1</span>);<br>        <span class="hljs-comment">/*创建(单元格)*/</span><br>        <span class="hljs-type">Cell</span> <span class="hljs-variable">cell21</span> <span class="hljs-operator">=</span> row2.createCell(<span class="hljs-number">0</span>);<br>        cell21.setCellValue(<span class="hljs-string">&quot;第二行第一列&quot;</span>);<br>        <span class="hljs-type">Cell</span> <span class="hljs-variable">cell22</span> <span class="hljs-operator">=</span> row2.createCell(<span class="hljs-number">1</span>);<br>        cell22.setCellValue(<span class="hljs-string">&quot;第二行第二列&quot;</span>);<br><br>        <span class="hljs-comment">/*5.创建输出流(IO流)  07版本文件后缀为：.xlsx*/</span><br>        <span class="hljs-type">FileOutputStream</span> <span class="hljs-variable">fileOutputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(PATH + <span class="hljs-string">&quot;07Excel.xlsx&quot;</span>);<br>        <span class="hljs-comment">/*6.生成文件*/</span><br>        workbook.write(fileOutputStream);<br>        <span class="hljs-comment">/*7.关闭流*/</span><br>        fileOutputStream.close();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="3-POI进行大量数据的写入"><a href="#3-POI进行大量数据的写入" class="headerlink" title="3.POI进行大量数据的写入"></a>3.POI进行大量数据的写入</h2><blockquote>
+<p><strong>模拟下大量数据的写入，写入65536行，10列(每行10个单元格)的数据</strong><br><strong>并且记录程序所耗费的时间</strong></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/*大量数据写入03版本Excel*/</span><br><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">poi03BigDate</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br><br>    <span class="hljs-comment">/*记录程序开始时间*/</span><br>    <span class="hljs-type">long</span> <span class="hljs-variable">begin</span> <span class="hljs-operator">=</span> System.currentTimeMillis();<br><br>    <span class="hljs-comment">/*1.创建工作簿*/</span><br>    <span class="hljs-type">Workbook</span> <span class="hljs-variable">workbook</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HSSFWorkbook</span>();<br>    <span class="hljs-comment">/*2.创建工作表*/</span><br>    <span class="hljs-type">Sheet</span> <span class="hljs-variable">sheet</span> <span class="hljs-operator">=</span> workbook.createSheet(<span class="hljs-string">&quot;03版本大量数据写入&quot;</span>);<br><br>    <span class="hljs-comment">/*x:行 y:列(单元格)*/</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">x</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; x &lt; <span class="hljs-number">65536</span>; x++) &#123;<br>        <span class="hljs-comment">/*3.创建行*/</span><br>        <span class="hljs-type">Row</span> <span class="hljs-variable">row</span> <span class="hljs-operator">=</span> sheet.createRow(x);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">y</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; y &lt; <span class="hljs-number">10</span>; y++) &#123;<br>            <span class="hljs-comment">/*4.创建列(单元格)*/</span><br>            <span class="hljs-type">Cell</span> <span class="hljs-variable">cell</span> <span class="hljs-operator">=</span> row.createCell(y);<br>            cell.setCellValue(y);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/*5.创建输出流(IO流)  03版本文件后缀为：.xls*/</span><br>    <span class="hljs-type">FileOutputStream</span> <span class="hljs-variable">fileOutputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(PATH + <span class="hljs-string">&quot;03BIgDate.xls&quot;</span>);<br>    <span class="hljs-comment">/*6.生成文件*/</span><br>    workbook.write(fileOutputStream);<br>    <span class="hljs-comment">/*7.关闭流*/</span><br>    fileOutputStream.close();<br><br>    <span class="hljs-comment">/*记录程序结束时间*/</span><br>    <span class="hljs-type">long</span> <span class="hljs-variable">end</span> <span class="hljs-operator">=</span> System.currentTimeMillis();<br><br>    <span class="hljs-comment">/*耗时 = 结束时间 - 开始时间 / 1000(毫秒值)*/</span><br>    System.out.println(<span class="hljs-string">&quot;HSSF_03版耗时：&quot;</span> + (<span class="hljs-type">double</span>) (end - begin) / <span class="hljs-number">1000</span>);<br>&#125;<br><br><br><span class="hljs-comment">/*大量数据写入07版本Excel*/</span><br><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">poi07BigDate</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br><br>    <span class="hljs-comment">/*记录程序开始时间*/</span><br>    <span class="hljs-type">long</span> <span class="hljs-variable">begin</span> <span class="hljs-operator">=</span> System.currentTimeMillis();<br><br>    <span class="hljs-comment">/*1.创建工作簿*/</span><br>    <span class="hljs-type">Workbook</span> <span class="hljs-variable">workbook</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">XSSFWorkbook</span>();<br>    <span class="hljs-comment">//Workbook workbook = new SXSSFWorkbook();</span><br>    <br>    <span class="hljs-comment">/*2.创建工作表*/</span><br>    <span class="hljs-type">Sheet</span> <span class="hljs-variable">sheet</span> <span class="hljs-operator">=</span> workbook.createSheet(<span class="hljs-string">&quot;07版本大量数据写入&quot;</span>);<br><br>    <span class="hljs-comment">/*x:行 y:列(单元格)*/</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">x</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; x &lt; <span class="hljs-number">65536</span>; x++) &#123;<br>        <span class="hljs-comment">/*3.创建行*/</span><br>        <span class="hljs-type">Row</span> <span class="hljs-variable">row</span> <span class="hljs-operator">=</span> sheet.createRow(x);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">y</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; y &lt; <span class="hljs-number">10</span>; y++) &#123;<br>            <span class="hljs-comment">/*4.创建列(单元格)*/</span><br>            <span class="hljs-type">Cell</span> <span class="hljs-variable">cell</span> <span class="hljs-operator">=</span> row.createCell(y);<br>            cell.setCellValue(y);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/*5.创建输出流(IO流)  07版本文件后缀为：.xlsx*/</span><br>    <span class="hljs-type">FileOutputStream</span> <span class="hljs-variable">fileOutputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(PATH + <span class="hljs-string">&quot;07BIgDate.xlsx&quot;</span>);<br>    <span class="hljs-comment">/*6.生成文件*/</span><br>    workbook.write(fileOutputStream);<br>    <span class="hljs-comment">/*7.关闭流*/</span><br>    fileOutputStream.close();<br><br>    <span class="hljs-comment">/*记录程序结束时间*/</span><br>    <span class="hljs-type">long</span> <span class="hljs-variable">end</span> <span class="hljs-operator">=</span> System.currentTimeMillis();<br><br>    <span class="hljs-comment">/*耗时 = 结束时间 - 开始时间 / 1000(毫秒值)*/</span><br>    System.out.println(<span class="hljs-string">&quot;XSSF_07版耗时：&quot;</span> + (<span class="hljs-type">double</span>) (end - begin) / <span class="hljs-number">1000</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p><strong><font color = #FF6666>03版如果写入超过65536行数据则会出现异常(这就是03版与07版很大的区别，还有就是后缀名不同，03版本是 .xls，07版本是 .xlsx)：</font></strong></p>
+</blockquote>
+<p><img src="/article_img/%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9CExcel%E6%96%87%E4%BB%B6(POI)/2.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p><strong>03版HSSF耗时：</strong><br><strong>优点：过程中写入缓存，不操作磁盘，最后一次性写入磁盘，速度快</strong><br><strong>缺点：只能操作65536行数据，否则会抛出异常</strong><br><strong>(java.lang.IllegalArgumentException: Invalid row number (65536) outside allowable range (0..65535))</strong></p>
+</blockquote>
+<p><img src="/article_img/%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9CExcel%E6%96%87%E4%BB%B6(POI)/3.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p><strong>07版XSSF耗时：</strong><br><strong>优点：可以写非常大的数据量，比如几十万</strong><br><strong>缺点：写数据时非常慢，很耗内存，所有很有可能发生内存溢出(OOM)</strong></p>
+</blockquote>
+<p><img src="/article_img/%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9CExcel%E6%96%87%E4%BB%B6(POI)/4.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p><strong>07版SXSSF耗时(07版本将 XSSFWorkbook对象 替换为 SXSSFWorkbook 对象)：</strong><br><strong>优点：在写入庞大数据量时，耗时更少，占用更少的内存</strong><br><strong>注意：在写入数据时，有一部分会被先写到临时文件，执行完之后需要清理临时文件。如果想自定义内存中的数量可以 new SXSSFWorkbook(传入数量)</strong></p>
+</blockquote>
+<p><img src="/article_img/%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9CExcel%E6%96%87%E4%BB%B6(POI)/5.png" srcset="/img/loading.gif" lazyload></p>
+<p>Excel写入总结：</p>
+<h2 id="4-POI读取数据-模拟两个案例"><a href="#4-POI读取数据-模拟两个案例" class="headerlink" title="4. POI读取数据 (模拟两个案例)"></a>4. POI读取数据 (模拟两个案例)</h2><blockquote>
+<p><strong>注：</strong><br><strong>1. 此案例只是03版本的Excel (如果是07版的Excel 换掉工作簿的对象即可，将HSSFWorkbook 变为XSSFWorkbook)</strong><br>** 2. 读取数据最复杂得点在于 转换Excel表中数据。比如日期、数字、小数、字符串、Excel中得函数公式、空单元格**<br>** 3. 所以可以使用 switch case 对不同类型进行判断 匹配**</p>
+</blockquote>
+<p><strong>案例一：</strong></p>
+<blockquote>
+<p><strong>下面有一个Excel表，把其中数据取出来，到控制台输出(都到控制台了，还不能存入数据库吗？)：</strong></p>
+</blockquote>
+<p><img src="/article_img/%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9CExcel%E6%96%87%E4%BB%B6(POI)/6.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/*读取03版本Excel中多个类型数据*/</span><br><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">poi03read</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br><br>    <span class="hljs-comment">/*获得文件流*/</span><br>    <span class="hljs-type">FileInputStream</span> <span class="hljs-variable">FileInputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(PATH + <span class="hljs-string">&quot;会员消费商品明细表.xls&quot;</span>);<br><br>    <span class="hljs-comment">/*1.创建工作簿*/</span><br>    <span class="hljs-type">Workbook</span> <span class="hljs-variable">workbook</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HSSFWorkbook</span>(FileInputStream);<br><br>    <span class="hljs-comment">/*2.得到工作表(一个文件中可能有多个工作表,参数为 索引)*/</span><br>    <span class="hljs-type">Sheet</span> <span class="hljs-variable">sheetAt</span> <span class="hljs-operator">=</span> workbook.getSheetAt(<span class="hljs-number">0</span>);<br><br>    <span class="hljs-comment">/*3.获得工作表中所有行*/</span><br>    <span class="hljs-type">int</span> <span class="hljs-variable">rowCount</span> <span class="hljs-operator">=</span> sheetAt.getPhysicalNumberOfRows();<br><br>    <span class="hljs-comment">/*循环所有行*/</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">rowNum</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; rowNum &lt; rowCount; rowNum++) &#123;<br>        <span class="hljs-comment">/*读取行*/</span><br>        <span class="hljs-type">Row</span> <span class="hljs-variable">row</span> <span class="hljs-operator">=</span> sheetAt.getRow(rowNum);<br><br>        <span class="hljs-keyword">if</span> (row != <span class="hljs-literal">null</span>) &#123;<br><br>            <span class="hljs-comment">/*4.获得所有列*/</span><br>            <span class="hljs-type">int</span> <span class="hljs-variable">cellCount</span> <span class="hljs-operator">=</span> row.getPhysicalNumberOfCells();<br><br>            <span class="hljs-comment">/*循环所有列*/</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">cellNum</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; cellNum &lt; cellCount; cellNum++) &#123;<br><br>                <span class="hljs-comment">/*获得列(单元格)*/</span><br>                <span class="hljs-type">Cell</span> <span class="hljs-variable">cell</span> <span class="hljs-operator">=</span> row.getCell(cellNum);<br><br>                <span class="hljs-comment">/*判断列不为null*/</span><br>                <span class="hljs-keyword">if</span> (cell != <span class="hljs-literal">null</span>) &#123;<br>                    <span class="hljs-comment">/*获得单元格内容的类型*/</span><br>                    <span class="hljs-type">int</span> <span class="hljs-variable">cellType</span> <span class="hljs-operator">=</span> cell.getCellType();<br><br>                    <span class="hljs-comment">/*内容变量*/</span><br>                    <span class="hljs-type">String</span> <span class="hljs-variable">cellValue</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br><br>                    <span class="hljs-comment">/*先判断类型,再输出*/</span><br>                    <span class="hljs-keyword">switch</span> (cellType) &#123;<br>                            <span class="hljs-comment">/*String类型*/</span><br>                        <span class="hljs-keyword">case</span> Cell.CELL_TYPE_STRING:<br>                            cellValue = cell.getStringCellValue();<br>                            System.out.print(cellValue + <span class="hljs-string">&quot; &quot;</span>);<br>                            <span class="hljs-keyword">break</span>;<br><br>                            <span class="hljs-comment">/*boolean类型*/</span><br>                        <span class="hljs-keyword">case</span> Cell.CELL_TYPE_BOOLEAN:<br>                            cellValue = String.valueOf(cell.getBooleanCellValue());<br>                            System.out.print(cellValue + <span class="hljs-string">&quot; &quot;</span>);<br>                            <span class="hljs-keyword">break</span>;<br><br>                            <span class="hljs-comment">/*数字类型(包括日期,数字)*/</span><br>                        <span class="hljs-keyword">case</span> Cell.CELL_TYPE_NUMERIC:<br>                            <span class="hljs-comment">/*HSSF工具类判断是否为日期*/</span><br>                            <span class="hljs-keyword">if</span> (HSSFDateUtil.isCellDateFormatted(cell)) &#123;<br>                                <span class="hljs-type">Date</span> <span class="hljs-variable">date</span> <span class="hljs-operator">=</span> cell.getDateCellValue();<br>                                <span class="hljs-comment">/*将日期时间转为字符串*/</span><br>                                cellValue = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DateTime</span>(date).toString(<span class="hljs-string">&quot;yyyy-MM-dd&quot;</span>);<br>                                System.out.print(cellValue);<br>                            &#125; <span class="hljs-keyword">else</span> &#123;<br>                                <span class="hljs-comment">/*不是日期类型 代表是数字,再将它转为字符串*/</span><br>                                cell.setCellType(Cell.CELL_TYPE_STRING);<br>                                cellValue = cell.getStringCellValue();<br>                                System.out.print(cellValue + <span class="hljs-string">&quot; &quot;</span>);<br>                            &#125;<br>                            <span class="hljs-keyword">break</span>;<br><br>                            <span class="hljs-comment">/*类型错误*/</span><br>                        <span class="hljs-keyword">case</span> Cell.CELL_TYPE_ERROR:<br>                            <span class="hljs-keyword">break</span>;<br><br>                            <span class="hljs-comment">/*空*/</span><br>                        <span class="hljs-keyword">case</span> Cell.CELL_TYPE_BLANK:<br>                            <span class="hljs-keyword">break</span>;<br>                    &#125;<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-comment">/*换行*/</span><br>        System.out.println();<br>    &#125;<br>    <span class="hljs-comment">/*5.关闭流*/</span><br>    FileInputStream.close();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>案例二：</strong></p>
+<blockquote>
+<p><strong>下面有一个Excel表，把它读取出来，到控制台输出(获得总和值和单元格中得函数公式)：</strong></p>
+</blockquote>
+<p><img src="/article_img/%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9CExcel%E6%96%87%E4%BB%B6(POI)/7.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/*读取03版本Excel中的函数公式(包括结果)*/</span><br><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">poi03readFormula</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br><br>    <span class="hljs-comment">/*获得文件流*/</span><br>    <span class="hljs-type">FileInputStream</span> <span class="hljs-variable">FileInputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(PATH + <span class="hljs-string">&quot;计算公式.xls&quot;</span>);<br><br>    <span class="hljs-comment">/*1.创建工作簿*/</span><br>    <span class="hljs-type">Workbook</span> <span class="hljs-variable">workbook</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HSSFWorkbook</span>(FileInputStream);<br><br>    <span class="hljs-comment">/*2.得到工作表(一个文件中可能有多个工作表,参数为 索引)*/</span><br>    <span class="hljs-type">Sheet</span> <span class="hljs-variable">sheetAt</span> <span class="hljs-operator">=</span> workbook.getSheetAt(<span class="hljs-number">0</span>);<br><br>    <span class="hljs-comment">/*3.获得工作表中所有行*/</span><br>    <span class="hljs-type">int</span> <span class="hljs-variable">rowCount</span> <span class="hljs-operator">=</span> sheetAt.getPhysicalNumberOfRows();<br><br>    <span class="hljs-comment">/*循环所有行*/</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">rowNum</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; rowNum &lt; rowCount; rowNum++) &#123;<br>        <span class="hljs-comment">/*读取行*/</span><br>        <span class="hljs-type">Row</span> <span class="hljs-variable">row</span> <span class="hljs-operator">=</span> sheetAt.getRow(rowNum);<br>        <span class="hljs-keyword">if</span> (row != <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-comment">/*4.获得所有列*/</span><br>            <span class="hljs-type">int</span> <span class="hljs-variable">cellCount</span> <span class="hljs-operator">=</span> row.getPhysicalNumberOfCells();<br>            <span class="hljs-comment">/*循环所有列*/</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">cellNum</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; cellNum &lt; cellCount; cellNum++) &#123;<br>                <span class="hljs-comment">/*获得列(单元格)*/</span><br>                <span class="hljs-type">Cell</span> <span class="hljs-variable">cell</span> <span class="hljs-operator">=</span> row.getCell(cellNum);<br>                <span class="hljs-comment">/*判断列不为null*/</span><br>                <span class="hljs-keyword">if</span> (cell != <span class="hljs-literal">null</span>) &#123;<br>                    <span class="hljs-comment">/*获得单元格内容的类型*/</span><br>                    <span class="hljs-type">int</span> <span class="hljs-variable">cellType</span> <span class="hljs-operator">=</span> cell.getCellType();<br>                    <span class="hljs-comment">/*内容变量*/</span><br>                    <span class="hljs-type">String</span> <span class="hljs-variable">cellValue</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br>                    <span class="hljs-comment">/*先判断类型,再输出*/</span><br>                    <span class="hljs-keyword">switch</span> (cellType) &#123;<br>                            <span class="hljs-comment">/*函数公式*/</span><br>                        <span class="hljs-keyword">case</span> Cell.CELL_TYPE_FORMULA:<br><br>                            cell.setCellType(Cell.CELL_TYPE_FORMULA);<br><br>                            <span class="hljs-comment">/*获得函数公式*/</span><br>                            <span class="hljs-type">String</span> <span class="hljs-variable">formula</span> <span class="hljs-operator">=</span> cell.getCellFormula();<br><br>                            System.out.println(formula);<br><br>                            <span class="hljs-comment">/*获得函数公式结果*/</span><br>                            <span class="hljs-comment">/*创建*HSSFFormulaEvaluator对象*/</span><br>                            <span class="hljs-type">FormulaEvaluator</span> <span class="hljs-variable">formulaEvaluator</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HSSFFormulaEvaluator</span>((HSSFWorkbook) workbook);<br><br>                            <span class="hljs-type">CellValue</span> <span class="hljs-variable">evaluate</span> <span class="hljs-operator">=</span> formulaEvaluator.evaluate(cell);<br><br>                            cellValue = evaluate.formatAsString();<br><br>                            System.out.println(cellValue);<br>                            <span class="hljs-keyword">break</span>;<br>                    &#125;<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-comment">/*5.关闭流*/</span><br>    FileInputStream.close();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<center>因为回忆太痛苦，所有我们要一直往前走。</center>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/JavaSE/" class="print-no-link">#JavaSE</a>
+      
+        <a href="/tags/Excel/" class="print-no-link">#Excel</a>
+      
+        <a href="/tags/POI/" class="print-no-link">#POI</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>使用代码操作Excel文件(POI)</div>
+      <div>http://example.com/2020/10/10/使用代码操作Excel文件(POI)/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>阿波</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年10月10日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2023年11月9日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/10/12/%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9CExcel%E6%96%87%E4%BB%B6(easyExcel)/" title="使用代码操作Excel文件(easyExcel)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">使用代码操作Excel文件(easyExcel)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/04/java.util.Date%E7%B3%BB%E5%88%97%E4%B9%8B(%E8%8E%B7%E5%8F%96%E8%BF%87%E5%8E%BB%E6%88%96%E6%9C%AA%E6%9D%A5%E7%9A%84%E6%97%A5%E6%9C%9F)/" title="java.util.Date系列之(获取过去或未来的日期)">
+                        <span class="hidden-mobile">java.util.Date系列之(获取过去或未来的日期)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>阿波</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

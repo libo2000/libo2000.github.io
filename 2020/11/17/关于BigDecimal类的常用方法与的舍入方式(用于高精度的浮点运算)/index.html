@@ -1,0 +1,698 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="阿波">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="关于BigDecimal类的常用方法与的舍入方式(用于高精度的浮点运算) 在实际开发中，难免会遇到数据值的计算，关于小数的两种浮点型(float，double)，也就是单精度与双精度。那么就需要一个类帮我们解决一些问题，下面介绍两种浮点型的区别和BigDecimal类的使用  两种类型的区别： 1.在内存中占有的字节数：单精度是4字节，而双精度是8字节 2. 有效数字位数：单精度有效位是8位，双精">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于BigDecimal类的常用方法与的舍入方式">
+<meta property="og:url" content="http://example.com/2020/11/17/%E5%85%B3%E4%BA%8EBigDecimal%E7%B1%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E4%B8%8E%E7%9A%84%E8%88%8D%E5%85%A5%E6%96%B9%E5%BC%8F(%E7%94%A8%E4%BA%8E%E9%AB%98%E7%B2%BE%E5%BA%A6%E7%9A%84%E6%B5%AE%E7%82%B9%E8%BF%90%E7%AE%97)/index.html">
+<meta property="og:site_name" content="阿波">
+<meta property="og:description" content="关于BigDecimal类的常用方法与的舍入方式(用于高精度的浮点运算) 在实际开发中，难免会遇到数据值的计算，关于小数的两种浮点型(float，double)，也就是单精度与双精度。那么就需要一个类帮我们解决一些问题，下面介绍两种浮点型的区别和BigDecimal类的使用  两种类型的区别： 1.在内存中占有的字节数：单精度是4字节，而双精度是8字节 2. 有效数字位数：单精度有效位是8位，双精">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/articleCover/bigdecimal.jpg">
+<meta property="article:published_time" content="2020-11-17T13:34:59.000Z">
+<meta property="article:modified_time" content="2023-11-09T14:09:49.172Z">
+<meta property="article:author" content="阿波">
+<meta property="article:tag" content="JavaSE">
+<meta property="article:tag" content="Date">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/articleCover/bigdecimal.jpg">
+  
+  
+  
+  <title>关于BigDecimal类的常用方法与的舍入方式 - 阿波</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_2069193_s1smwgsdgtr.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>阿波</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/background/wallhaven-m3qje8.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="关于BigDecimal类的常用方法与的舍入方式"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        阿波
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-11-17 21:34" pubdate>
+          2020年11月17日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          35 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">关于BigDecimal类的常用方法与的舍入方式</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="关于BigDecimal类的常用方法与的舍入方式-用于高精度的浮点运算"><a href="#关于BigDecimal类的常用方法与的舍入方式-用于高精度的浮点运算" class="headerlink" title="关于BigDecimal类的常用方法与的舍入方式(用于高精度的浮点运算)"></a>关于BigDecimal类的常用方法与的舍入方式(用于高精度的浮点运算)</h1><blockquote>
+<p><strong>在实际开发中，难免会遇到数据值的计算，关于小数的两种浮点型(float，double)，也就是单精度与双精度。</strong><br><strong>那么就需要一个类帮我们解决一些问题，下面介绍两种浮点型的区别和BigDecimal类的使用</strong></p>
+</blockquote>
+<h2 id="两种类型的区别："><a href="#两种类型的区别：" class="headerlink" title="两种类型的区别："></a>两种类型的区别：</h2><p> 1.在内存中占有的字节数：单精度是4字节，而双精度是8字节<br> 2. 有效数字位数：单精度有效位是8位，双精度是16位<br> 3. 数值取值范围：单精度表示范围 -3.40E+38<del>3.40E+38，双精度表示范围 -1.79E+308</del>-1.79E+308<br> 4. 在程序中处理速度不同：一般来说，CPU处理单精度浮点数的速度比处理双精度浮点数快（网上是这样说，还没有感受过）<br> 5. 两者在使用定义时：如果定义是不声明，默认的小数类型就是double，如果要使用float就必须进行强制转换<br> 6. 例如：float  a&#x3D;1.5; 会编译报错，正确的写法 float a &#x3D; (float)1.5;或者float a &#x3D; 1.5f;（f或F都可以不区分大小写）</p>
+<h2 id="BigDecimal类："><a href="#BigDecimal类：" class="headerlink" title="BigDecimal类："></a>BigDecimal类：</h2><blockquote>
+<p><strong>先介绍下 BigDecimal 类的常用方法</strong><br><strong>BigDecimal 类路径：java.math.BigDecimal，BigDecimal 的父类是一个抽象类Number  类路径 java.lang.Number</strong><br><strong>比如很多熟悉的基本类型包装类：Byte、Long、Integer都来继承自此类</strong><br><strong>作用：用于高精度的浮点运算</strong></p>
+</blockquote>
+<ol>
+<li><p>创建 BigDecimal类（构造方法）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">new</span> <span class="hljs-title class_">BigDecimal</span>(<span class="hljs-type">int</span>)        创建一个具有参数所指定整数值的对象。<br><span class="hljs-keyword">new</span> <span class="hljs-title class_">BigDecimal</span>(<span class="hljs-type">double</span>)     创建一个具有参数所指定双精度值的对象。<br><span class="hljs-keyword">new</span> <span class="hljs-title class_">BigDecimal</span>(<span class="hljs-type">long</span>)       创建一个具有参数所指定长整数值的对象。<br><span class="hljs-keyword">new</span> <span class="hljs-title class_">BigDecimal</span>(String)     创建一个具有参数所指定以字符串表示的数值的对象。<br>注：在创建BigDecimal对象时,如果直接传入的是小数类型的值,有可能会造成精度损失,推荐传入String类型<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>常用方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">1.</span>BigDecimal <span class="hljs-title function_">add</span><span class="hljs-params">(BigDecimal value)</span>;				加法，求两个BigDecimal类型数据的和。<br><span class="hljs-number">2.</span>BigDecimal <span class="hljs-title function_">subtract</span><span class="hljs-params">(BigDecimal value)</span>;		减法，求两个BigDecimal类型数据的差。<br><span class="hljs-number">3.</span>BigDecimal <span class="hljs-title function_">multiply</span><span class="hljs-params">(BigDecimal value)</span>;		乘法，求两个BigDecimal类型数据的积。<br><span class="hljs-number">4.</span>BigDecimal <span class="hljs-title function_">divide</span><span class="hljs-params">(BigDecimal divisor)</span>;		除法，求两个BigDecimal类型数据的商。<br><span class="hljs-number">5.</span>BigDecimal <span class="hljs-title function_">remainder</span><span class="hljs-params">(BigDecimal divisor)</span>;		求余数，求BigDecimal类型数据除以divisor的余数。		<br><span class="hljs-number">6.</span>BigDecimal <span class="hljs-title function_">max</span><span class="hljs-params">(BigDecimal value)</span>;				最大数，求两个BigDecimal类型数据的最大值。		<br><span class="hljs-number">7.</span>BigDecimal <span class="hljs-title function_">min</span><span class="hljs-params">(BigDecimal value)</span>;				最小数，求两个BigDecimal类型数据的最小值。		<br><span class="hljs-number">8.</span>BigDecimal <span class="hljs-title function_">abs</span><span class="hljs-params">()</span>;								绝对值，求BigDecimal类型数据的绝对值。		<br><span class="hljs-number">9.</span>BigDecimal <span class="hljs-title function_">negate</span><span class="hljs-params">()</span>;							相反数，求BigDecimal类型数据的相反数。<br><span class="hljs-number">10.</span>BigDecimal <span class="hljs-title function_">setScale</span><span class="hljs-params">(<span class="hljs-type">int</span> newScale, <span class="hljs-type">int</span> roundingMode)</span>; 按指定舍入模式保留小数位数<br></code></pre></td></tr></table></figure></li>
+</ol>
+<p>怎么用？下面给大家举个加法的例子 BigDecimal add(BigDecimal value);：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">decimal</span><span class="hljs-params">()</span> &#123;<br><br>    <span class="hljs-comment">/*1.第一个BigDecimal的小数值 1.57361*/</span><br>     <span class="hljs-type">BigDecimal</span> <span class="hljs-variable">bigDecimal</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BigDecimal</span>(<span class="hljs-string">&quot;1.57361&quot;</span>);<br><br>     <span class="hljs-comment">/*2.第二个BigDecimal的小数值 1.5*/</span><br>     <span class="hljs-type">BigDecimal</span> <span class="hljs-variable">bigDecimal2</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BigDecimal</span>(<span class="hljs-string">&quot;1.5&quot;</span>);<br><br>     <span class="hljs-comment">/*使用第一个BigDecimal下的add(BigDecimal value)方法 去加上bigDecimal2的数值</span><br><span class="hljs-comment">      * 这里就相当于 1.5361 + 1.5*/</span><br>     <span class="hljs-type">BigDecimal</span> <span class="hljs-variable">add</span> <span class="hljs-operator">=</span> bigDecimal.add(bigDecimal2);<br><br>     <span class="hljs-comment">/*结果：3.07361*/</span><br>     System.out.println(add);<br><br>     <span class="hljs-comment">/*如果还要舍弃后面的多余小数,比如说：只保留两位小数点</span><br><span class="hljs-comment">     * 参数一：设置需要保留小数的位数</span><br><span class="hljs-comment">     参数二：舍入模式(8种舍入方式下面有详细介绍)*/</span><br>     <span class="hljs-type">BigDecimal</span> <span class="hljs-variable">decimal</span> <span class="hljs-operator">=</span> add.setScale(<span class="hljs-number">2</span>, BigDecimal.ROUND_UP);<br><br>     <span class="hljs-comment">/*输出舍入后的值：3.08 (舍入模式会间接影响结果)</span><br><span class="hljs-comment">     比如这里结果其实是3.07,使用的舍入方式向前进了一位*/</span><br>     System.out.println(decimal);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>获取 BigDecimal 对象中不同返回值类型<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">String <span class="hljs-title function_">toString</span><span class="hljs-params">()</span>      将BigDecimal对象的数值转换成字符串。<br><span class="hljs-type">double</span> <span class="hljs-title function_">doubleValue</span><span class="hljs-params">()</span>   将BigDecimal对象中的值以双精度数返回。<br><span class="hljs-type">float</span> <span class="hljs-title function_">floatValue</span><span class="hljs-params">()</span>     将BigDecimal对象中的值以单精度数返回。<br><span class="hljs-type">long</span> <span class="hljs-title function_">longValue</span><span class="hljs-params">()</span>       将BigDecimal对象中的值以长整数返回。<br><span class="hljs-type">int</span> <span class="hljs-title function_">intValue</span><span class="hljs-params">()</span>         将BigDecimal对象中的值以整数返回。<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="BigDecimal类的8中不同的舍入方式："><a href="#BigDecimal类的8中不同的舍入方式：" class="headerlink" title="BigDecimal类的8中不同的舍入方式："></a>BigDecimal类的8中不同的舍入方式：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java">假设现在有一个浮点型小数：<span class="hljs-number">1.375411</span> 看看使用下面不同的舍入方式会有什么样的结果？<br><br><span class="hljs-number">1.</span>BigDecimal.ROUND_UP       	常量值 = <span class="hljs-number">0</span> (作用：在保留小数后直接去掉多余的位数)<br>案例：<span class="hljs-number">1.376411</span> ➡ <span class="hljs-number">1.376</span><br><br><span class="hljs-number">2.</span>BigDecimal.ROUND_DOWN     	常量值 = <span class="hljs-number">1</span> (作用：在保留小数后向前进一位)<br>案例：<span class="hljs-number">1.376411</span> ➡ <span class="hljs-number">1.377</span><br><br><span class="hljs-number">3.</span>BigDecimal.ROUND_CEILING  	常量值 = <span class="hljs-number">2</span> (作用：如果是正数相当于ROUND_DOWN,负数相当于ROUND_UP)<br><br><span class="hljs-number">4.</span>BigDecimal.ROUND_FLOOR    	常量值 = <span class="hljs-number">3</span> (作用：如果是正数相当于ROUND_DOWN,ROUND_HALF_UP)<br><br><span class="hljs-number">5.</span>BigDecimal.ROUND_HALF_UP  	常量值 = <span class="hljs-number">4</span> (作用：在舍弃部分左边的数字四舍五入(若舍入部分&gt;=<span class="hljs-number">5</span>，就进位))<br>案例：<span class="hljs-number">1.376411</span> ➡ <span class="hljs-number">1.376</span> 如果 <span class="hljs-number">1.376511</span> 变为 <span class="hljs-number">1.377</span><br><br><span class="hljs-number">6.</span>BigDecimal.ROUND_HALF_DOWN   	常量值 = <span class="hljs-number">5</span> (作用：在保留小数后的后一位四舍五入(若舍入部分&gt;<span class="hljs-number">5</span>，就进位) 和ROUND_HALF_UP非常相似)<br>案例：<span class="hljs-number">1.376411</span> ➡ <span class="hljs-number">1.376</span>,如果是<span class="hljs-number">1.376511</span> ➡ <span class="hljs-number">1.377</span><br>注意 ROUND_HALF_UP与ROUND_HALF_DOWN的作用都相同,区别在前者是舍入部分大于或等于&gt;=<span class="hljs-number">5</span>都进位,后者只有舍入部分大于&gt;<span class="hljs-number">5</span>才进位<br><br><span class="hljs-number">7.</span>BigDecimal.ROUND_HALF_EVEN   	常量值 = <span class="hljs-number">6</span> (作用：如果舍入部分左边的数字为偶数情况下作用与ROUND_HALF_DOWN相同,为奇数与ROUND_HALF_UP相同)<br>案例：<span class="hljs-number">1.376411</span> ➡ <span class="hljs-number">1.376</span> 舍入部分左边数字为<span class="hljs-number">6</span>(偶数),再使用ROUND_HALF_DOWN,舍入部分为<span class="hljs-number">411</span> 没有大于&gt;<span class="hljs-number">5</span> 那么不进位(相反之)<br>再比如：<span class="hljs-number">1.375511</span> ➡ <span class="hljs-number">1.376</span> 舍入部分左边数字为<span class="hljs-number">5</span>(奇数),再使用ROUND_HALF_UP,舍入部分为<span class="hljs-number">511</span> 大于&gt;=<span class="hljs-number">5</span> 那么进位(相反之) <span class="hljs-number">1.375</span> ➡ <span class="hljs-number">1.376</span><br>逻辑： <span class="hljs-number">1.</span>先判断舍入部分左边数字为偶数还是奇数<br>	  <span class="hljs-number">2.</span>再选择使用ROUND_HALF_DOWN(偶数)还是 ROUND_HALF_UP(奇数)<br>使用的方式是银行家舍入：即四舍六入五考虑，五后非零就进一，五后为零看奇偶，五前为偶应舍去，五前为奇要进一(可以去了解下)<br><br><span class="hljs-number">8.</span>BigDecimal.ROUND_UNNECESSARY   常量值 = <span class="hljs-number">7</span> (作用：断言该小数已经具有精确的结果,因此不需要舍入。否则抛出ArithmeticException异常)<br>例子：<span class="hljs-number">1.376</span> 只要小数位不超过规定的位数(我们这里是<span class="hljs-number">3</span>位),超过抛出异常<br><br>注：该方法是一个重载方法  java.math.RoundingMode枚举类中就包含上面<span class="hljs-number">8</span>个常量<br></code></pre></td></tr></table></figure>
+
+<h2 id="案例："><a href="#案例：" class="headerlink" title="案例："></a>案例：</h2><p>假设现在有一个浮点型小数我们需要按照我们的要求进行保留小数位：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">decimal</span><span class="hljs-params">()</span> &#123;<br><br>      <span class="hljs-comment">/*1.创建 BigDecimal类</span><br><span class="hljs-comment">      注：在创建BigDecimal对象时,如果直接传入的是小数类型的值,有可能会造成精度损失,推荐传入String类型*/</span><br>      <span class="hljs-type">BigDecimal</span> <span class="hljs-variable">Decimal</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BigDecimal</span>(<span class="hljs-string">&quot;1.376411&quot;</span>);<br><br>      <span class="hljs-comment">/*2.使用BigDecimal.setScale(int newScale, int roundingMode)方法进行小数位的保留</span><br><span class="hljs-comment">      参数一：设置需要保留3位小数 </span><br><span class="hljs-comment">      参数二：舍入模式(8种舍入方式上面已经介绍了)</span><br><span class="hljs-comment">      这里就保留3位小数，使用BigDecimal.ROUND_UP方式：在保留小数后直接去掉多余的位数(这里写对应的常量值也行)*/</span><br>      Decimal = Decimal.setScale(<span class="hljs-number">3</span>, BigDecimal.ROUND_UP);<br><br>      <span class="hljs-comment">/*3.获取返回类型(可以获得不同的返回值类型：long,int,String,double)*/</span><br>      <span class="hljs-type">double</span> <span class="hljs-variable">value</span> <span class="hljs-operator">=</span> Decimal.doubleValue();<br><br> 	  <span class="hljs-comment">/*打印输出*/</span><br>      System.out.println(value);<br><br>	 <span class="hljs-comment">/*不同的舍入方式大家可以参照这上面的关于舍入方式详细介绍都试一试*/</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<center>   找不到路，就自己走一条出来。</center>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/JavaSE/" class="print-no-link">#JavaSE</a>
+      
+        <a href="/tags/Date/" class="print-no-link">#Date</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>关于BigDecimal类的常用方法与的舍入方式</div>
+      <div>http://example.com/2020/11/17/关于BigDecimal类的常用方法与的舍入方式(用于高精度的浮点运算)/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>阿波</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年11月17日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2023年11月9日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/11/18/%E5%85%B3%E4%BA%8EDecimalFormat%E7%B1%BB%E7%9A%84%E6%95%B0%E5%AD%97%E6%A0%BC%E5%BC%8F%E5%8C%96/" title="关于DecimalFormat类的数字格式化">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">关于DecimalFormat类的数字格式化</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/11/16/Date%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E7%9B%B8%E4%BA%92%E8%BD%AC%E6%8D%A2/" title="Date类型与字符串的相互转换">
+                        <span class="hidden-mobile">Date类型与字符串的相互转换</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>阿波</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

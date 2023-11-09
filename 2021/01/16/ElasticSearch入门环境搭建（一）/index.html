@@ -1,0 +1,808 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="阿波">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="ElasticSearch入门环境搭建（一）ElasticSearchElasticsearch是一个基于Lucene的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java语言开发的，并作为Apache许可条款下的开放源码发布，是一种流行的企业级搜索引擎。Elasticsearch用于云计算中，能够达到实时搜索，稳定，可靠，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ElasticSearch入门环境搭建（一）">
+<meta property="og:url" content="http://example.com/2021/01/16/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="阿波">
+<meta property="og:description" content="ElasticSearch入门环境搭建（一）ElasticSearchElasticsearch是一个基于Lucene的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java语言开发的，并作为Apache许可条款下的开放源码发布，是一种流行的企业级搜索引擎。Elasticsearch用于云计算中，能够达到实时搜索，稳定，可靠，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/articleCover/elasticsearch.jpg">
+<meta property="article:published_time" content="2021-01-16T04:54:08.000Z">
+<meta property="article:modified_time" content="2023-11-09T14:05:03.988Z">
+<meta property="article:author" content="阿波">
+<meta property="article:tag" content="ElasticSearch">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/articleCover/elasticsearch.jpg">
+  
+  
+  
+  <title>ElasticSearch入门环境搭建（一） - 阿波</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_2069193_s1smwgsdgtr.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>阿波</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/background/wallhaven-m3qje8.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ElasticSearch入门环境搭建（一）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        阿波
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-01-16 12:54" pubdate>
+          2021年1月16日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ElasticSearch入门环境搭建（一）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="ElasticSearch入门环境搭建（一）"><a href="#ElasticSearch入门环境搭建（一）" class="headerlink" title="ElasticSearch入门环境搭建（一）"></a>ElasticSearch入门环境搭建（一）</h1><h2 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h2><p>Elasticsearch是一个基于Lucene的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java语言开发的，并作为Apache许可条款下的开放源码发布，是一种流行的企业级搜索引擎。<br>Elasticsearch用于云计算中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。官方客户端在Java、.NET（C#）、PHP、Python、Apache Groovy、Ruby和许多其他语言中都是可用的。根据DB-Engines的排名显示，Elasticsearch是最受欢迎的企业搜索引擎，其次是Apache Solr，也是基于Lucene。</p>
+<ul>
+<li><strong>ElasticSearch版本7.9.3</strong></li>
+<li><strong>kibana版本7.9.3</strong></li>
+<li><strong>ik分词器版本7.9.3</strong></li>
+</ul>
+<h2 id="安装ElasticSearch"><a href="#安装ElasticSearch" class="headerlink" title="安装ElasticSearch"></a>安装ElasticSearch</h2><p> <strong>1. 下面有两种下载方式：</strong>（官网下载堪比蜗牛，推荐大家使用第二种镜像的方式下载）</p>
+<ul>
+<li><p><strong>ElasticSearch官网下载：</strong> <a target="_blank" rel="noopener" href="https://www.elastic.co/cn/elasticsearch">https://www.elastic.co/cn/elasticsearch</a><br> <img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><strong>有不同的系统版本根据自己的情况下载就可以了</strong><br> <img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/2.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><strong>ElasticSearch华为云镜像下载：</strong><a target="_blank" rel="noopener" href="https://mirrors.huaweicloud.com/elasticsearch">https://mirrors.huaweicloud.com/elasticsearch</a>	最新的ElasticSearch版本在页面最下方<br> <img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/3.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><strong>不同的版本，比如我们在windows下学习ElasticSearch选择windows64位版本就行了</strong><br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/4.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+<p> <strong>2. 解将压缩包解压</strong><br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/5.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>来熟悉下目录</li>
+</ul>
+<p>bin：二进制脚本，包含启动命令和安装插件命令等<br>comfig：配置文件（里面包含ElasticSearch、jvm、log4j等多个配置文件）<br>data：数据储存目录<br>lib：相关Jar依赖包<br>logs：日志文件<br>modules：功能模块<br>plugins：插件目录</p>
+<p> <strong>3. 启动ElasticSearch</strong></p>
+<p> 进入ElasticSearch的 bin 目录双击运行 elasticsearch.bat<br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/6.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/7.png" srcset="/img/loading.gif" lazyload><br> <strong>4. 测试访问ElasticSearch</strong></p>
+<ul>
+<li>ElasticSearch的默认端口为9200，启动完成后直接在浏览器中访问 127.0.0.1:9200</li>
+<li>随后ElasticSearch就会返回JSON格式的一些基本信息	</li>
+<li>最后一个属性挺有意思：”tagline” : “You Know, for Search” 	你知道的，为了搜索<br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/8.png" srcset="/img/loading.gif" lazyload></li>
+</ul>
+<h2 id="安装可视化界面"><a href="#安装可视化界面" class="headerlink" title="安装可视化界面"></a>安装可视化界面</h2><ul>
+<li><p><strong>下载elasticsearch-head：github地址</strong> <a target="_blank" rel="noopener" href="https://github.com/mobz/elasticsearch-head">https://github.com/mobz/elasticsearch-head</a></p>
+</li>
+<li><p><strong>1. 可以使用git命令下载：git clone <a target="_blank" rel="noopener" href="https://github.com/mobz/elasticsearch-head">https://github.com/mobz/elasticsearch-head</a></strong></p>
+</li>
+<li><p><strong>2. 或者直接点击下载ZIP的压缩包</strong>（不会真有人没安装git吧？百度自己去下载吧）<br> <img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/9.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><strong>这里需要使用node.js进行项目初始化和导入依赖</strong>（如果没安装node.js的话，去官网下载安装即可，无需配置）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://nodejs.org/zh-cn">node.js官网：https://nodejs.org/zh-cn</a></p>
+</li>
+<li><p><strong>安装完后查看node以及npm是否安装成功</strong></p>
+</li>
+<li><p><strong>查看node.js版本：node -v 	查看npm版本：npm -v</strong><br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/10.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><strong>安装cnpm国内淘宝镜像</strong>（因为使用npm非常的慢）</p>
+</li>
+<li><p><strong>命令：npm install -g cnpm –registry&#x3D;<a target="_blank" rel="noopener" href="https://registry.npm.taobao.org/">https://registry.npm.taobao.org</a></strong></p>
+</li>
+<li><p><strong>安装完成cnpm后使用 cnpm -v 检查是否安装成功</strong>（如下图）<br> <img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/11.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><strong>使用cmd或者git进入elasticsearch-head的目录下执行</strong>（文件名太长了这里使用git） </p>
+</li>
+<li><p><strong>初始化elasticsearch-head这个项目模块	命令：cnpm install</strong><br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/12.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><strong>运行此项目	命令：npm run start</strong><br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/13.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><strong>成功之后让我们去访问	<a target="_blank" rel="noopener" href="http://localhost:9100/">http://localhost:9100</a></strong>（elasticsearch是9200，elasticsearch-head是9100）<br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/14.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><strong>我们安装好可视化界面后尝试连接下elasticsearch看看是否成功</strong></p>
+</li>
+<li><p><strong>无法连接到elasticsearch服务	其实一个是跨域的问题</strong><br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/15.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><strong>解决跨域问题</strong></p>
+</li>
+</ul>
+<ol>
+<li>进入elasticsearch的config目录并打开elasticsearch.yml配置文件<br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/16.png" srcset="/img/loading.gif" lazyload></li>
+<li>在后面加上此内容即可解决跨域问题</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">http.cors.enabled: <span class="hljs-literal">true</span><br>http.cors.allow-origin: <span class="hljs-string">&quot;*&quot;</span><br></code></pre></td></tr></table></figure>
+<p><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/17.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>重启elasticsearch	运行elasticsearch下bin目录的可执行文件elasticsearch.bat（在windows系统下直接双击即可）</li>
+<li>再次使用elasticsearch-head尝试连接elasticsearch服务	成功 </li>
+<li><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/18.png" srcset="/img/loading.gif" lazyload></li>
+<li><strong>可以简单了解下elasticsearch-head的界面，后面再使用</strong></li>
+</ul>
+<h2 id="安装kibana"><a href="#安装kibana" class="headerlink" title="安装kibana"></a>安装kibana</h2><p>  kibana和elasticsearch都是拆箱即用，同样的下载分官方下载和华为云镜像下载。kibana也是如此（因为官方非常的慢）</p>
+<ul>
+<li><p><strong>kibana华为云镜像下载：</strong><a target="_blank" rel="noopener" href="https://mirrors.huaweicloud.com/kibana">https://mirrors.huaweicloud.com/kibana</a>	 <strong>kibana官方地址：</strong><a target="_blank" rel="noopener" href="https://www.elastic.co/cn/kibana"> https://www.elastic.co/cn/kibana</a></p>
+</li>
+<li><p><strong><font color=red>注：kibana的版本一定要和elasticsearch版本一致 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;下载完成后解压需要一小段时间</font></strong></p>
+</li>
+<li><p><strong>访问kibana</strong><br> kibana解压完成后进入bin目录双击kibana.bat运行<br> <img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/19.png" srcset="/img/loading.gif" lazyload><br> <img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/20.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><strong>访问：<a target="_blank" rel="noopener" href="http://localhost:5601/">http://localhost:5601</a></strong>（不同的kibana版本可能界面有所不同）<br> <img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/21.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+<p>访问kibana后发现全是English，如果是中文看起来肯定最舒服，如何让kibana变成中文？我们接下来汉化kibana</p>
+<ul>
+<li><strong>汉化kibana</strong></li>
+<li>进入kibana的bin目录打开 kibana.yml文件<br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/22.png" srcset="/img/loading.gif" lazyload></li>
+<li>在最后一行加上：	i18n.locale: “zh-CN”<br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/23.png" srcset="/img/loading.gif" lazyload></li>
+<li>关闭kibana窗口重新运行bin目录下kibana.bat文件再访问：<a target="_blank" rel="noopener" href="http://localhost:5601/">http://localhost:5601</a>	汉化成功<br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/24.png" srcset="/img/loading.gif" lazyload></li>
+</ul>
+<h2 id="IK分词器"><a href="#IK分词器" class="headerlink" title="IK分词器"></a>IK分词器</h2><ul>
+<li><strong>什么是IK分词器?</strong></li>
+</ul>
+<p>分词:即把一段中文或者别的划分成一个个的关键字,我们在搜索时候会把自己的信息进行分词,会把数据库中或者索引库中的数据进行分词,然后进行一个匹配操作,默认的中文分词器是将每个字看成一个词,比如”我爱技术”会被分为”我”,”爱”,”技”,”术”,这显然不符合要求,所以我们需要安装中文分词器IK来解决这个问题</p>
+<p>IK提供了两个分词算法:ik_smart和ik_max_word<br>其中ik_smart为最少切分，ik_max_word为最细粒度划分</p>
+<ul>
+<li><strong>安装IK分词器</strong></li>
+</ul>
+<p>  **1. 下载IK分词器	<a target="_blank" rel="noopener" href="https://github.com/medcl/elasticsearch-analysis-ik">github地址：https://github.com/medcl/elasticsearch-analysis-ik</a>**（注意和elasticsearch版本对应）</p>
+<p>  <strong>2. 在elasticsearch的plugins目录下新建一个名为ik的文件夹，并将ik分词器压缩包解压到文件夹下面</strong><br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/25.png" srcset="/img/loading.gif" lazyload><br><strong>3. 重启elasticsearch，让它去加载ik分词器插件</strong><br>在启动时就可以明确的看到加载了ik分词器插件<br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/26.png" srcset="/img/loading.gif" lazyload><br>也可以在elasticsearch的bin目录下通过cmd+命令查看加载的插件：elasticsearch-plugin list<br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/27.png" srcset="/img/loading.gif" lazyload><br> <strong>- 使用kibana进行测试</strong><br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/28.png" srcset="/img/loading.gif" lazyload><br><strong>上面说到ik分词器中的 ik_smart 为最少切分， ik_max_word 为最细粒度划分。用一个字符串来试试两者具体的区别</strong><br>比如说我要搜索	<em><strong>刘亦菲真的很美</strong></em>，两种不同的方式会怎样进行分词</p>
+<ul>
+<li><p>ik_smart 	最少切分<br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/29.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>ik_max_word 最细粒度划分<br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/30.png" srcset="/img/loading.gif" lazyload><br>ik_smart  将 <em><strong>刘亦菲真的很美</strong></em> 分为了：刘、亦、菲、真的、很美。五个词<br>ik_max_word  将 <em><strong>刘亦菲真的很美</strong></em> 分为了：刘、亦、菲、真的、真的很、很美。六个词</p>
+</li>
+<li><p><strong>自定义分词</strong></p>
+</li>
+</ul>
+<p>经过上面的两种测试，我们发现不管以什么方式进行分词，始终把某些我们认为的词组给分成了单个的字<br>例如上面的词，我想要的是 <em><strong>刘亦菲</strong></em> ，而不是：<em><strong>刘、亦、菲</strong></em> 三个单独的字。这时候就需要把我们自定义的词组加到ik词典中去</p>
+<ol>
+<li><p>首先进入到elasticsearch-7.9.3\plugins\ik\config 新建一个我们自己的 dic 文件		比如我这里取名为my.dic </p>
+</li>
+<li><p>打开我们自己的 .dic 文件，并加入我们想要的词语<br> <img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/31.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>打开config下的 IKAnalyzer.cfg.xml 配置文件	并配置我们刚刚的扩展词组<br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/32.png" srcset="/img/loading.gif" lazyload><br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/33.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>重启elasticsearch和kibana</p>
+</li>
+</ol>
+<ul>
+<li>关闭elasticsearch和kibana的服务窗口</li>
+<li>分别先运行elasticsearch下bin目录中的 elasticsearch.bat </li>
+<li>以及kibana的bin目录下 kibana.bat</li>
+</ul>
+<ol start="5">
+<li>再次打开 <a target="_blank" rel="noopener" href="http://localhost:5601/">http://localhost:5601</a> 进行测试</li>
+</ol>
+<ul>
+<li>ik_smart<br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/34.png" srcset="/img/loading.gif" lazyload></li>
+<li>ik_max_word<br><img src="/article_img/ElasticSearch%E5%85%A5%E9%97%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/35.png" srcset="/img/loading.gif" lazyload></li>
+<li><strong>这样就成功啦，就可以按照我们的方式进行分词了</strong></li>
+</ul>
+<center>只有懦弱和失败者才会四处寻找借口</center>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ElasticSearch/" class="category-chain-item">ElasticSearch</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ElasticSearch/" class="print-no-link">#ElasticSearch</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ElasticSearch入门环境搭建（一）</div>
+      <div>http://example.com/2021/01/16/ElasticSearch入门环境搭建（一）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>阿波</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年1月16日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2023年11月9日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/06/10/SpringBoot%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B8%8E%E4%B8%8B%E8%BD%BD/" title="SpringBoot文件上传与下载">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SpringBoot文件上传与下载</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/12/28/MyBatis-Plus%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E5%99%A8/" title="MyBatis-Plus代码生成器">
+                        <span class="hidden-mobile">MyBatis-Plus代码生成器</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>阿波</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
